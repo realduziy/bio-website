@@ -8,15 +8,12 @@ body {
     font-family: Arial, sans-serif;
     color: white;
     min-height: 100vh;
-    /* Ensure minimum height is 100% of the viewport */
     display: flex;
     justify-content: center;
     align-items: center;
     overflow-y: auto;
-    /* Allow vertical scrolling */
     position: relative;
     scroll-snap-type: y mandatory;
-    /* Enable snap scrolling */
 }
 
 .background-container {
@@ -38,7 +35,6 @@ body {
     text-align: center;
     z-index: 1;
     padding: 20px;
-    /* Prevent content from being too close to edges */
 }
 
 .content-box {
@@ -72,7 +68,8 @@ body {
     flex-wrap: wrap;
     margin: 20px 0;
     padding: 0 10px;
-    /* Add horizontal padding to prevent cutting off */
+    position: relative;
+    /* Needed for the glow effect */
 }
 
 .icon-button {
@@ -81,24 +78,48 @@ body {
     text-decoration: none;
     color: white;
     font-size: 2rem;
-    /* Default icon size */
     width: 50px;
     height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: transform 0.3s;
+    /* For hover effect */
 }
 
-.icon-button img {
-    width: 32px;
-    /* Set a fixed size for icon images */
-    height: auto;
-    /* Maintain aspect ratio */
+/* Glow effect for icons */
+.icon-button:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 70px;
+    /* Adjust size as needed */
+    height: 70px;
+    /* Adjust size as needed */
+    background: rgba(0, 255, 255, 0.5);
+    /* Aqua glow color */
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    filter: blur(8px);
+    /* Blur effect */
+    z-index: -1;
+    /* Place it behind the icons */
+    transition: transform 0.3s;
+    /* For hover effect */
 }
 
+/* Hover effect for icons */
+.icon-button:hover {
+    transform: scale(1.1);
+    /* Slightly enlarge on hover */
+}
+
+/* Icon images */
+.icon-button img,
 .fab-icon {
     width: 32px;
-    /* Set a fixed width for icon images */
+    /* Fixed size for icon images */
     height: auto;
     /* Maintain aspect ratio */
 }
@@ -112,33 +133,21 @@ body {
 
 .mute {
     font-size: 1.5rem;
-    /* Adjust font size for better visibility */
     margin-right: 10px;
-    /* Space between button and slider */
     background: rgba(255, 255, 255, 0.2);
-    /* Semi-transparent background */
     border: none;
-    /* Remove default border */
     border-radius: 5px;
-    /* Rounded corners */
     color: white;
-    /* Text color */
     cursor: pointer;
-    /* Change cursor on hover */
     padding: 10px;
-    /* Padding for better touch area */
     transition: background 0.3s, transform 0.3s;
-    /* Smooth background and scale transitions */
 }
 
 .mute:hover {
     background: rgba(255, 255, 255, 0.4);
-    /* Change background on hover */
     transform: scale(1.1);
-    /* Slightly enlarge button on hover */
 }
 
 .mute:focus {
     outline: none;
-    /* Remove outline on focus */
 }
