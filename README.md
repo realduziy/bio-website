@@ -19,3 +19,7 @@ To run this locally, you then need to run this command in a terminal that is ope
 Command is : python app.py or py app.py
 
 It should work after that; if not, then ¯\_(ツ)_/¯, ill write up a better read.me when I feel like it.
+
+Here is a example of what it can look like:
+
+![image](https://github.com/user-attachments/assets/75634ba8-0190-47ea-b8e5-b0bf3008b2cd)
