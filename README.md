@@ -22,4 +22,4 @@ It should work after that; if not, then ¯\_(ツ)_/¯, ill write up a better rea
 
 Here is a example of what it can look like:
 
-![image](https://github.com/user-attachments/assets/9117028f-4876-4d2a-922c-564ff799ff75)
+![image](https://github.com/user-attachments/assets/f88db506-defe-4187-9fab-ef6047440453)
