@@ -16,6 +16,6 @@ Then you need to edit a few things in the html, main things will be the links fo
 
 To run this locally, you then need to run this command in a terminal that is opened in the first file location
 
-Command is : python app.py
+Command is : python app.py or py app.py
 
 It should work after that; if not, then ¯\_(ツ)_/¯, ill write up a better read.me when I feel like it.
