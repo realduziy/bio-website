@@ -14,7 +14,7 @@ You need a profile picture; you can choose anything you would like; it just need
 Then for the background, you can use any mp4 file that you would like, it needs to be named background.mp4 (make sure that the mp4 is in the static folder)
 Then you need to edit a few things in the html, main things will be the links for your socials, your name and your bio, as well as the website header thing (you can figure that out yourself; its really not that hard)
 
-To run this locally, you then need to run this command in a terminal that is opened in that file location
+To run this locally, you then need to run this command in a terminal that is opened in the first file location
 
 Command is : python app.py
 
