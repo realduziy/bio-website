@@ -10,25 +10,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Mute/Unmute functionality
     muteButton.addEventListener("click", function () {
-        if (video.muted) {
-            video.muted = false;
-            muteButton.textContent = "🔊"; // Show unmuted icon
-        } else {
-            video.muted = true;
-            muteButton.textContent = "🔇"; // Show muted icon
-        }
+        video.muted = !video.muted; // Toggle mute state
+        muteButton.textContent = video.muted ? "🔇" : "🔊"; // Update button icon
     });
 
     // Volume control
     volumeSlider.addEventListener("input", function () {
         video.volume = this.value;
-        if (video.volume === 0) {
-            video.muted = true; // Mute if volume is 0
-            muteButton.textContent = "🔇"; // Show muted icon
-        } else {
-            video.muted = false; // Unmute if volume is above 0
-            muteButton.textContent = "🔊"; // Show unmuted icon
-        }
+        video.muted = video.volume === 0; // Mute if volume is 0
+        muteButton.textContent = video.muted ? "🔇" : "🔊"; // Update button icon
     });
 
     // Play the video and audio
@@ -36,5 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
         video.muted = false; // Ensure video is not muted
     }).catch(function (error) {
         console.log("Error trying to play video:", error);
+        // Consider prompting the user to interact if autoplay is blocked
+        muteButton.textContent = "🔊"; // Show unmuted icon
+        alert("Please click the mute button to allow audio.");
     });
 });
