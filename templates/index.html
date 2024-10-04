@@ -7,6 +7,72 @@
         <title>duziy's Bio</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <style>
+                .container {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100vh;
+                }
+
+                .content-box {
+                        margin-top: 30px; /* Adjust top margin for balance */
+                        background-color: rgba(0, 0, 0, 0.7); /* Darker background for contrast */
+                        padding: 20px;
+                        border-radius: 10px;
+                        max-width: 400px; /* Limit width to fit content better */
+                        text-align: center; /* Center text inside the box */
+                }
+
+                .profile-pic {
+                        margin-top: 10px; /* Adjust profile picture position */
+                        width: 100px; /* Ensure consistent size */
+                        height: 100px;
+                        border-radius: 50%; /* Make it circular */
+                }
+
+                #status-container {
+                        margin-top: -10px; /* Move status up by 10px */
+                        height: 1.5em; /* Fixed height to prevent movement */
+                        overflow: hidden; /* Hide overflow to maintain size */
+                }
+
+                #status {
+                        font-size: 1.2em; /* Slightly smaller font size */
+                        display: inline-block;
+                }
+
+                .cursor {
+                        display: inline-block;
+                        background-color: #fff;
+                        width: 2px;
+                        height: 1em;
+                        margin-left: 2px;
+                        animation: blink 1s step-end infinite;
+                }
+
+                .social-icons {
+                        display: flex; /* Use flexbox to align icons in a line */
+                        justify-content: center; /* Center icons horizontally */
+                        flex-wrap: wrap; /* Allow wrapping if needed */
+                        margin-top: 20px;
+                }
+
+                .icon-button {
+                        margin: 5px; /* Space around each icon */
+                }
+
+                @keyframes blink {
+                        from,
+                        to {
+                                background-color: transparent;
+                        }
+
+                        50% {
+                                background-color: #fff;
+                        }
+                }
+        </style>
 </head>
 
 <body>
@@ -21,6 +87,9 @@
                         <img src="{{ url_for('static', filename='profile.jpg') }}" alt="Profile Picture"
                                 class="profile-pic">
                         <h1 class="name">duziy</h1>
+                        <div id="status-container">
+                                <p id="status"></p><span class="cursor"></span>
+                        </div>
                         <p class="bio">Just some guy on the internet</p>
 
                         <!-- Social Icons -->
@@ -68,6 +137,37 @@
                 </div>
         </div>
 
+        <script>
+                var statuses = JSON.parse('{{ statuses | tojson | safe }}');
+                var currentStatus = 0;
+                var index = 0;
+                var isDeleting = false;
+
+                function typeWriter() {
+                        var currentText = statuses[currentStatus];
+                        var speed = 100; // Slower typing speed (100ms between characters)
+
+                        if (!isDeleting && index < currentText.length) {
+                                document.getElementById("status").innerHTML += currentText.charAt(index);
+                                index++;
+                                setTimeout(typeWriter, speed);
+                        } else if (isDeleting && index > 0) {
+                                document.getElementById("status").innerHTML = currentText.substring(0, index - 1);
+                                index--;
+                                setTimeout(typeWriter, speed / 2); // Faster deleting
+                        } else if (index === currentText.length) {
+                                isDeleting = true;
+                                setTimeout(typeWriter, 5000); // 5-second pause at the end
+                        } else {
+                                isDeleting = false;
+                                currentStatus = (currentStatus + 1) % statuses.length;
+                                index = 0;
+                                setTimeout(typeWriter, 500); // Short pause before next status
+                        }
+                }
+
+                typeWriter();
+        </script>
         <script src="{{ url_for('static', filename='skritps.js') }}"></script>
 </body>
 
