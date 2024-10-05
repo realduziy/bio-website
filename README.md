@@ -1,25 +1,37 @@
-If you actually want to use this for anything, you will need a website hosting provider.
+# Project Overview
 
-I made this for fun as a proof of consent with the free version of ChatGPT!
+If you're planning to use this for anything real, you’ll need a hosting provider.
 
-There might be issues and even security problems so I would not use as a final product. I would fork this project and make it better if I were you.
+I built this as a fun proof of concept using the free version of ChatGPT!
 
-I might update this more in the future, but for the time being, this is going to be pretty much it.
+There could be bugs or even security issues, so I wouldn't recommend using it as-is for a final product. If I were you, I'd fork this project and improve it.
 
-Steps to get this to work:
+I might update this in the future, but for now, this is pretty much it.
 
-Download python
-Download Flask by doing pip install Flask if you want to run this locally for testing
-You need a profile picture; you can choose anything you would like; it just needs to be named profile.jpg (make sure that the jpg is in the static folder)
-Then for the background, you can use any mp4 file that you would like, it needs to be named background.mp4 (make sure that the mp4 is in the static folder)
-Then you need to edit a few things in the html, main things will be the links for your socials, your name and your bio, as well as the website header thing (you can figure that out yourself; its really not that hard)
+## Getting it to work:
 
-To run this locally, you then need to run this command in a terminal that is opened in the first file location
+1. **Install Python.**
+2. **Install Flask** by running `pip install Flask` if you want to test it locally.
+3. Set up a **profile picture** (anything you like) and name it `profile.jpg`. Make sure it's in the `static` folder.
+4. Add a **background video** in `mp4` format and name it `background.mp4`. It should also go in the `static` folder.
+5. Edit the **HTML** to include your social links, name, bio, and website title. It’s simple enough to figure out.
 
-Command is : python app.py or py app.py
+## Running it locally:
 
-It should work after that; if not, then ¯\_(ツ)_/¯, ill write up a better read.me when I feel like it.
+1. Open a terminal in the project directory.
+2. Run the command:  
+    ```
+    python app.py
+    ```
+    or  
+    ```
+    py app.py
+    ```
 
-Here is a example of what it can look like:
+It should work! If it doesn’t, ¯\\_(ツ)_/¯.
 
-![image](https://github.com/user-attachments/assets/f88db506-defe-4187-9fab-ef6047440453)
+## Example:
+
+Here’s an example of what it can look like:
+
+![Example Image](https://github.com/user-attachments/assets/f88db506-defe-4187-9fab-ef6047440453)
