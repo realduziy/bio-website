@@ -23,7 +23,8 @@ I might update this in the future, but for now, this is pretty much it.
     ```
     python app.py
     ```
-    or  
+    or 
+ 
     ```
     py app.py
     ```
