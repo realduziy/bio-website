@@ -16,29 +16,29 @@
                 }
 
                 .content-box {
-                        margin-top: 30px; /* Adjust top margin for balance */
-                        background-color: rgba(0, 0, 0, 0.7); /* Darker background for contrast */
+                        margin-top: 30px;
+                        background-color: rgba(0, 0, 0, 0.7);
                         padding: 20px;
                         border-radius: 10px;
-                        max-width: 400px; /* Limit width to fit content better */
-                        text-align: center; /* Center text inside the box */
+                        max-width: 400px;
+                        text-align: center;
                 }
 
                 .profile-pic {
-                        margin-top: 10px; /* Adjust profile picture position */
-                        width: 100px; /* Ensure consistent size */
+                        margin-top: 10px;
+                        width: 100px;
                         height: 100px;
-                        border-radius: 50%; /* Make it circular */
+                        border-radius: 50%;
                 }
 
                 #status-container {
-                        margin-top: -10px; /* Move status up by 10px */
-                        height: 1.5em; /* Fixed height to prevent movement */
-                        overflow: hidden; /* Hide overflow to maintain size */
+                        margin-top: -10px;
+                        height: 1.5em;
+                        overflow: hidden;
                 }
 
                 #status {
-                        font-size: 1.2em; /* Slightly smaller font size */
+                        font-size: 1.2em;
                         display: inline-block;
                 }
 
@@ -52,17 +52,18 @@
                 }
 
                 .social-icons {
-                        display: flex; /* Use flexbox to align icons in a line */
-                        justify-content: center; /* Center icons horizontally */
-                        flex-wrap: wrap; /* Allow wrapping if needed */
+                        display: flex;
+                        justify-content: center;
+                        flex-wrap: wrap;
                         margin-top: 20px;
                 }
 
                 .icon-button {
-                        margin: 5px; /* Space around each icon */
+                        margin: 5px;
                 }
 
                 @keyframes blink {
+
                         from,
                         to {
                                 background-color: transparent;
@@ -71,6 +72,75 @@
                         50% {
                                 background-color: #fff;
                         }
+                }
+
+                .volume-control {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin-top: 20px;
+                }
+
+                .mute {
+                        font-size: 1.5rem;
+                        margin-right: 10px;
+                        background: rgba(255, 255, 255, 0.2);
+                        border: none;
+                        border-radius: 5px;
+                        color: white;
+                        cursor: pointer;
+                        padding: 10px;
+                        transition: background 0.3s, transform 0.3s;
+                }
+
+                .mute:hover {
+                        background: rgba(255, 255, 255, 0.4);
+                        transform: scale(1.1);
+                }
+
+                .mute:focus {
+                        outline: none;
+                }
+
+                .volume-slider {
+                        width: 100px;
+                        appearance: none;
+                        background: rgba(255, 255, 255, 0.2);
+                        border-radius: 5px;
+                        height: 8px;
+                        outline: none;
+                        transition: background 0.3s;
+                }
+
+                .volume-slider::-webkit-slider-thumb {
+                        appearance: none;
+                        width: 20px;
+                        height: 20px;
+                        border-radius: 50%;
+                        background: white;
+                        cursor: pointer;
+                        transition: background 0.3s;
+                }
+
+                .volume-slider::-moz-range-thumb {
+                        width: 20px;
+                        height: 20px;
+                        border-radius: 50%;
+                        background: white;
+                        cursor: pointer;
+                        transition: background 0.3s;
+                }
+
+                .volume-slider:hover {
+                        background: rgba(255, 255, 255, 0.4);
+                }
+
+                .volume-slider::-webkit-slider-thumb:hover {
+                        background: rgba(255, 255, 255, 0.8);
+                }
+
+                .volume-slider::-moz-range-thumb:hover {
+                        background: rgba(255, 255, 255, 0.8);
                 }
         </style>
 </head>
@@ -132,7 +202,8 @@
                         <!-- Volume Control -->
                         <div class="volume-control">
                                 <button id="mute-button" class="mute">🔊</button>
-                                <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.2">
+                                <input type="range" id="volume-slider" class="volume-slider" min="0" max="1" step="0.01"
+                                        value="0.2">
                         </div>
                 </div>
         </div>
@@ -145,7 +216,7 @@
 
                 function typeWriter() {
                         var currentText = statuses[currentStatus];
-                        var speed = 100; // Slower typing speed (100ms between characters)
+                        var speed = 100;
 
                         if (!isDeleting && index < currentText.length) {
                                 document.getElementById("status").innerHTML += currentText.charAt(index);
@@ -154,21 +225,47 @@
                         } else if (isDeleting && index > 0) {
                                 document.getElementById("status").innerHTML = currentText.substring(0, index - 1);
                                 index--;
-                                setTimeout(typeWriter, speed / 2); // Faster deleting
+                                setTimeout(typeWriter, speed / 2);
                         } else if (index === currentText.length) {
                                 isDeleting = true;
-                                setTimeout(typeWriter, 5000); // 5-second pause at the end
+                                setTimeout(typeWriter, 5000);
                         } else {
                                 isDeleting = false;
                                 currentStatus = (currentStatus + 1) % statuses.length;
                                 index = 0;
-                                setTimeout(typeWriter, 500); // Short pause before next status
+                                setTimeout(typeWriter, 500);
                         }
                 }
 
                 typeWriter();
         </script>
+        <script>
+                const video = document.getElementById('background-video');
+                const muteButton = document.getElementById('mute-button');
+                const volumeSlider = document.getElementById('volume-slider');
+
+                muteButton.addEventListener('click', () => {
+                        if (video.muted) {
+                                video.muted = false;
+                                muteButton.innerHTML = '🔊';
+                        } else {
+                                video.muted = true;
+                                muteButton.innerHTML = '🔇';
+                        }
+                });
+
+                volumeSlider.addEventListener('input', () => {
+                        video.volume = volumeSlider.value;
+                        if (video.volume === 0) {
+                                video.muted = true;
+                                muteButton.innerHTML = '🔇';
+                        } else {
+                                video.muted = false;
+                                muteButton.innerHTML = '🔊';
+                        }
+                });
+        </script>
         <script src="{{ url_for('static', filename='skritps.js') }}"></script>
 </body>
 
-</html>
+</html
