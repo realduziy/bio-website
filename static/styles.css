@@ -13,7 +13,6 @@ body {
     align-items: center;
     overflow-y: auto;
     position: relative;
-    scroll-snap-type: y mandatory;
 }
 
 .background-container {
@@ -23,6 +22,7 @@ body {
     right: 0;
     bottom: 0;
     z-index: -1;
+    overflow: hidden;
 }
 
 .background-video {
@@ -35,6 +35,7 @@ body {
     text-align: center;
     z-index: 1;
     padding: 20px;
+    width: 100%;
 }
 
 .content-box {
@@ -42,41 +43,41 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+    margin: 0 auto;
 }
 
 .profile-pic {
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     border: 3px solid white;
-    margin: 20px 0;
+    margin: 10px 0;
 }
 
 .name {
-    font-size: 2.5rem;
+    font-size: 2rem;
     margin: 10px 0;
 }
 
 .bio {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
+    font-size: 1rem;
+    margin-bottom: 15px;
 }
 
 .social-icons {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    margin: 20px 0;
-    padding: 0 10px;
-    position: relative;
+    margin: 15px 0;
+    gap: 10px;
 }
 
 .icon-button {
     position: relative;
-    margin: 10px;
     text-decoration: none;
     color: white;
-    font-size: 2rem;
+    font-size: 1.5rem;
     width: 50px;
     height: 50px;
     display: flex;
@@ -90,8 +91,8 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     background: rgba(0, 255, 255, 0.3);
     border-radius: 50%;
     transform: translate(-50%, -50%) scale(1);
@@ -106,52 +107,72 @@ body {
 
 .icon-button img,
 .fab-icon {
-    width: 32px;
-    height: auto;
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+}
+
+/* Specific classes for larger icons */
+.icon-button.soundcloud img,
+.icon-button.telegram img {
+    width: 64px; /* Larger width */
+    height: 64px; /* Larger height */
+}
+
+/* Custom size for TikTok icon */
+.icon-button.tiktok img {
+    width: 84px; /* Custom width */
+    height: 84px; /* Custom height */
+}
+
+/* GitHub icon size */
+.icon-button.github img {
+    width: 46px; /* Standard width */
+    height: 46px; /* Standard height */
 }
 
 .volume-control {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 15px;
+    gap: 10px;
 }
 
 .mute {
-    font-size: 1.5rem;
-    margin-right: 10px;
+    font-size: 1.2rem;
     background: rgba(255, 255, 255, 0.2);
     border: none;
     border-radius: 5px;
     color: white;
     cursor: pointer;
-    padding: 10px;
+    padding: 8px 12px;
     transition: background 0.3s, transform 0.3s;
 }
 
 .mute:hover {
     background: rgba(255, 255, 255, 0.4);
-    transform: scale(1.1);
-}
-
-.mute:focus {
-    outline: none;
+    transform: scale(1.05);
 }
 
 .volume-slider {
-    width: 100px;
+    width: 80px;
     appearance: none;
     background: rgba(255, 255, 255, 0.2);
     border-radius: 5px;
-    height: 8px;
+    height: 6px;
     outline: none;
     transition: background 0.3s;
 }
 
+.volume-slider:disabled {
+    opacity: 0.5;
+}
+
 .volume-slider::-webkit-slider-thumb {
     appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     background: white;
     cursor: pointer;
@@ -159,22 +180,39 @@ body {
 }
 
 .volume-slider::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
     background: white;
     cursor: pointer;
     transition: background 0.3s;
 }
 
-.volume-slider:hover {
-    background: rgba(255, 255, 255, 0.4);
+#status-container {
+    margin: 10px 0;
+    height: 1.5em;
+    overflow: hidden;
 }
 
-.volume-slider::-webkit-slider-thumb:hover {
-    background: rgba(255, 255, 255, 0.8);
+#status {
+    font-size: 1em;
+    display: inline-block;
 }
 
-.volume-slider::-moz-range-thumb:hover {
-    background: rgba(255, 255, 255, 0.8);
+.cursor {
+    display: inline-block;
+    background-color: #fff;
+    width: 2px;
+    height: 1em;
+    margin-left: 2px;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    from, to {
+        background-color: transparent;
+    }
+    50% {
+        background-color: #fff;
+    }
 }
