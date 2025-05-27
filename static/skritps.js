@@ -1,33 +1,116 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const video = document.getElementById("background-video");
-    const muteButton = document.getElementById("mute-button");
-    const volumeSlider = document.getElementById("volume-slider");
+// scripts.js
+class VideoController {
+    constructor() {
+        this.video = document.getElementById('background-video');
+        this.muteButton = document.getElementById('mute-button');
+        this.volumeSlider = document.getElementById('volume-slider');
+        this.initialVolume = 0.2;
+        this.hasUserInteracted = false;
+        this.autoplayBlockedMessage = null;
 
-    // Set initial volume
-    const initialVolume = 0.2; // Set your desired initial volume (lower than 0.5)
-    video.volume = initialVolume;
-    volumeSlider.value = initialVolume; // Set the slider to match the initial volume
+        this.init();
+    }
 
-    // Mute/Unmute functionality
-    muteButton.addEventListener("click", function () {
-        video.muted = !video.muted; // Toggle mute state
-        muteButton.textContent = video.muted ? "🔇" : "🔊"; // Update button icon
-    });
+    init() {
+        // Load saved volume from localStorage or use initialVolume
+        const savedVolume = localStorage.getItem('videoVolume');
+        this.initialVolume = savedVolume !== null ? parseFloat(savedVolume) : this.initialVolume;
 
-    // Volume control
-    volumeSlider.addEventListener("input", function () {
-        video.volume = this.value;
-        video.muted = video.volume === 0; // Mute if volume is 0
-        muteButton.textContent = video.muted ? "🔇" : "🔊"; // Update button icon
-    });
+        // Set initial state
+        this.video.volume = this.initialVolume;
+        this.volumeSlider.value = this.initialVolume;
 
-    // Play the video and audio
-    video.play().then(() => {
-        video.muted = false; // Ensure video is not muted
-    }).catch(function (error) {
-        console.log("Error trying to play video:", error);
-        // Consider prompting the user to interact if autoplay is blocked
-        muteButton.textContent = "🔊"; // Show unmuted icon
-        alert("Please click the mute button to allow audio.");
-    });
-});
+        // Start unmuted
+        this.video.muted = false;
+        this.updateButton();
+
+        this.setupEventListeners();
+        this.playVideo();
+    }
+
+    setupEventListeners() {
+        this.muteButton.addEventListener('click', () => this.handleMuteToggle());
+        this.volumeSlider.addEventListener('input', () => this.handleVolumeChange());
+
+        // Capture first user interaction anywhere on page
+        document.addEventListener('click', () => this.handleFirstInteraction(), { once: true });
+    }
+
+    handleMuteToggle() {
+        this.video.muted = !this.video.muted;
+        this.updateButton();
+    }
+
+    handleVolumeChange() {
+        let newVolume = parseFloat(this.volumeSlider.value);
+        if (isNaN(newVolume)) newVolume = 0.2;
+        newVolume = Math.max(0, Math.min(1, newVolume));
+        this.video.volume = newVolume;
+        // Save volume setting to localStorage
+        localStorage.setItem('videoVolume', newVolume.toString());
+        if (newVolume > 0) {
+            this.video.muted = false;
+            this.updateButton();
+        }
+    }
+
+    handleFirstInteraction() {
+        this.hasUserInteracted = true;
+        try {
+            this.video.muted = false;
+            this.updateButton();
+            this.video.play();
+            this.removeAutoplayBlockedMessage();
+        } catch (error) {
+            console.log('Automatic unmute failed:', error);
+        }
+    }
+
+    updateButton() {
+        this.muteButton.textContent = this.video.muted ? '🔇' : '🔊';
+        this.volumeSlider.disabled = this.video.muted;
+    }
+
+    async playVideo() {
+        try {
+            await this.video.play();
+            this.removeAutoplayBlockedMessage();
+        } catch (error) {
+            console.error('Video playback failed:', error);
+            this.showAutoplayBlockedMessage();
+        }
+    }
+
+    showAutoplayBlockedMessage() {
+        if (this.autoplayBlockedMessage) return;
+
+        const message = document.createElement('div');
+        message.textContent = 'Does the website look weird to you? It\'s probably because your browser is blocking videos from auto-playing.';
+        message.style.position = 'fixed';
+        message.style.top = '50%';
+        message.style.left = '50%';
+        message.style.transform = 'translate(-50%, -50%)';
+        message.style.backgroundColor = 'rgba(255, 0, 0, 0.9)';
+        message.style.color = 'white';
+        message.style.padding = '30px';
+        message.style.borderRadius = '15px';
+        message.style.zIndex = '1000';
+        message.style.textAlign = 'center';
+        message.style.fontSize = '2rem';
+        message.style.fontWeight = 'bold';
+        message.style.boxShadow = '0 0 30px rgba(0, 0, 0, 0.7)';
+        message.style.border = '3px solid white';
+        document.body.appendChild(message);
+
+        this.autoplayBlockedMessage = message;
+    }
+
+    removeAutoplayBlockedMessage() {
+        if (this.autoplayBlockedMessage) {
+            this.autoplayBlockedMessage.remove();
+            this.autoplayBlockedMessage = null;
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => new VideoController());
