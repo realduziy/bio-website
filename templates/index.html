@@ -2,270 +2,112 @@
 <html lang="en">
 
 <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>duziy's Bio</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-        <style>
-                .container {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        height: 100vh;
-                }
-
-                .content-box {
-                        margin-top: 30px;
-                        background-color: rgba(0, 0, 0, 0.7);
-                        padding: 20px;
-                        border-radius: 10px;
-                        max-width: 400px;
-                        text-align: center;
-                }
-
-                .profile-pic {
-                        margin-top: 10px;
-                        width: 100px;
-                        height: 100px;
-                        border-radius: 50%;
-                }
-
-                #status-container {
-                        margin-top: -10px;
-                        height: 1.5em;
-                        overflow: hidden;
-                }
-
-                #status {
-                        font-size: 1.2em;
-                        display: inline-block;
-                }
-
-                .cursor {
-                        display: inline-block;
-                        background-color: #fff;
-                        width: 2px;
-                        height: 1em;
-                        margin-left: 2px;
-                        animation: blink 1s step-end infinite;
-                }
-
-                .social-icons {
-                        display: flex;
-                        justify-content: center;
-                        flex-wrap: wrap;
-                        margin-top: 20px;
-                }
-
-                .icon-button {
-                        margin: 5px;
-                }
-
-                @keyframes blink {
-
-                        from,
-                        to {
-                                background-color: transparent;
-                        }
-
-                        50% {
-                                background-color: #fff;
-                        }
-                }
-
-                .volume-control {
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        margin-top: 20px;
-                }
-
-                .mute {
-                        font-size: 1.5rem;
-                        margin-right: 10px;
-                        background: rgba(255, 255, 255, 0.2);
-                        border: none;
-                        border-radius: 5px;
-                        color: white;
-                        cursor: pointer;
-                        padding: 10px;
-                        transition: background 0.3s, transform 0.3s;
-                }
-
-                .mute:hover {
-                        background: rgba(255, 255, 255, 0.4);
-                        transform: scale(1.1);
-                }
-
-                .mute:focus {
-                        outline: none;
-                }
-
-                .volume-slider {
-                        width: 100px;
-                        appearance: none;
-                        background: rgba(255, 255, 255, 0.2);
-                        border-radius: 5px;
-                        height: 8px;
-                        outline: none;
-                        transition: background 0.3s;
-                }
-
-                .volume-slider::-webkit-slider-thumb {
-                        appearance: none;
-                        width: 20px;
-                        height: 20px;
-                        border-radius: 50%;
-                        background: white;
-                        cursor: pointer;
-                        transition: background 0.3s;
-                }
-
-                .volume-slider::-moz-range-thumb {
-                        width: 20px;
-                        height: 20px;
-                        border-radius: 50%;
-                        background: white;
-                        cursor: pointer;
-                        transition: background 0.3s;
-                }
-
-                .volume-slider:hover {
-                        background: rgba(255, 255, 255, 0.4);
-                }
-
-                .volume-slider::-webkit-slider-thumb:hover {
-                        background: rgba(255, 255, 255, 0.8);
-                }
-
-                .volume-slider::-moz-range-thumb:hover {
-                        background: rgba(255, 255, 255, 0.8);
-                }
-        </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>duziy's Bio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
 <body>
-        <div class="background-container">
-                <video id="background-video" autoplay loop muted playsinline class="background-video">
-                        <source src="{{ url_for('static', filename='background.mp4') }}" type="video/mp4">
-                        Your browser does not support the video tag.
-                </video>
+    <div class="background-container">
+        <video id="background-video" autoplay loop muted playsinline class="background-video">
+            <source src="{{ url_for('static', filename='backgrounds/' + background_video) }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <div class="container">
+        <div class="content-box">
+            <img src="{{ url_for('static', filename='profile.jpg') }}" alt="Profile Picture" class="profile-pic">
+            <h1 class="name">duziy</h1>
+            <div id="status-container">
+                <p id="status"></p><span class="cursor"></span>
+            </div>
+            <p class="bio">Just some guy on the internet</p>
+
+            <!-- Social Icons -->
+            <div class="social-icons">
+                <a href="https://youtube.com/@duziy" target="_blank" rel="noopener noreferrer" class="icon-button">
+                    <img src="{{ url_for('static', filename='images/youtube_logo.png') }}" alt="YouTube" class="fab-icon">
+                </a>
+                <a href="https://kick.com/duziy" target="_blank" rel="noopener noreferrer" class="icon-button">
+                    <img src="{{ url_for('static', filename='images/kick_logo.png') }}" alt="Kick" class="fab-icon">
+                </a>
+                <a href="https://twitch.tv/realduziy" target="_blank" rel="noopener noreferrer" class="icon-button">
+                    <img src="{{ url_for('static', filename='images/twitch_logo.png') }}" alt="Twitch" class="fab-icon">
+                </a>
+                <a href="https://tiktok.com/@duziy" target="_blank" rel="noopener noreferrer" class="icon-button tiktok">
+                    <img src="{{ url_for('static', filename='images/tiktok_logo.png') }}" alt="TikTok" class="fab-icon">
+                </a>
+                <a href="https://instagram.com/realduziy/" target="_blank" rel="noopener noreferrer" class="icon-button">
+                    <img src="{{ url_for('static', filename='images/instagram_logo.png') }}" alt="Instagram" class="fab-icon">
+                </a>
+                <a href="https://x.com/realduziy" target="_blank" rel="noopener noreferrer" class="icon-button">
+                    <img src="{{ url_for('static', filename='images/x_logo.png') }}" alt="X" class="fab-icon">
+                </a>
+                <a href="https://github.com/realduziy" target="_blank" rel="noopener noreferrer" class="icon-button github">
+                    <img src="{{ url_for('static', filename='images/github_logo.png') }}" alt="GitHub" class="fab-icon">
+                </a>
+                <a href="https://soundcloud.com/duziy" target="_blank" rel="noopener noreferrer" class="icon-button soundcloud">
+                    <img src="{{ url_for('static', filename='images/soundcloud_logo.png') }}" alt="SoundCloud" class="fab-icon">
+                </a>
+                <a href="https://roblox.com/users/1306548829/profile" target="_blank" rel="noopener noreferrer" class="icon-button">
+                    <img src="{{ url_for('static', filename='images/roblox_logo.png') }}" alt="Roblox" class="fab-icon">
+                </a>
+                <a href="https://reddit.com/user/_duziy_/" target="_blank" rel="noopener noreferrer" class="icon-button">
+                    <img src="{{ url_for('static', filename='images/reddit_logo.png') }}" alt="Reddit" class="fab-icon">
+                </a>
+                <a href="https://namemc.com/profile/duziy.1" target="_blank" rel="noopener noreferrer" class="icon-button">
+                    <img src="{{ url_for('static', filename='images/namemc_logo.png') }}" alt="Namemc" class="fab-icon">
+                </a>
+                <a href="https://steamcommunity.com/id/duziy" target="_blank" rel="noopener noreferrer" class="icon-button">
+                    <img src="{{ url_for('static', filename='images/steam_logo.png') }}" alt="Steam" class="fab-icon">
+                </a>
+                <a href="https://t.me/duziy" target="_blank" rel="noopener noreferrer" class="icon-button telegram">
+                    <img src="{{ url_for('static', filename='images/telegram_logo.png') }}" alt="Telegram" class="fab-icon">
+                </a>
+            </div>
+
+            <!-- Volume Control -->
+            <div class="volume-control">
+                <button id="mute-button" class="mute">🔇</button>
+                <input type="range" id="volume-slider" class="volume-slider" min="0" max="1" step="0.01" value="0.2">
+            </div>
         </div>
-        <div class="container">
-                <div class="content-box">
-                        <img src="{{ url_for('static', filename='profile.jpg') }}" alt="Profile Picture"
-                                class="profile-pic">
-                        <h1 class="name">duziy</h1>
-                        <div id="status-container">
-                                <p id="status"></p><span class="cursor"></span>
-                        </div>
-                        <p class="bio">Just some guy on the internet</p>
+    </div>
 
-                        <!-- Social Icons -->
-                        <div class="social-icons">
-                                <a href="https://youtube.com/@duziy" target="_blank" class="icon-button"><i
-                                                class="fab fa-youtube"></i></a>
-                                <a href="https://kick.com/duziy" target="_blank" class="icon-button"><i
-                                                class="fab fa-kickstarter"></i></a>
-                                <a href="https://twitch.tv/realduziy" target="_blank" class="icon-button"><i
-                                                class="fab fa-twitch"></i></a>
-                                <a href="https://tiktok.com/@duziy" target="_blank" class="icon-button"><i
-                                                class="fab fa-tiktok"></i></a>
-                                <a href="https://instagram.com/realduziy/" target="_blank" class="icon-button"><i
-                                                class="fab fa-instagram"></i></a>
-                                <a href="https://x.com/realduziy" target="_blank" class="icon-button">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/X_logo_2023_%28white%29.png"
-                                                alt="X" class="fab-icon">
-                                </a>
-                                <a href="https://github.com/realduziy" target="_blank" class="icon-button"><i
-                                                class="fab fa-github"></i></a>
-                                <a href="https://soundcloud.com/duziy" target="_blank" class="icon-button"><i
-                                                class="fab fa-soundcloud"></i></a>
-                                <a href="https://roblox.com/users/1306548829/profile" target="_blank"
-                                        class="icon-button">
-                                        <img src="https://img.icons8.com/?size=100&id=62158&format=png&color=FFFFFF"
-                                                alt="Roblox" class="fab-icon">
-                                </a>
-                                <a href="https://reddit.com/user/_duziy_/" target="_blank" class="icon-button"><i
-                                                class="fab fa-reddit"></i></a>
-                                <a href="https://namemc.com/profile/duziy.1" target="_blank" class="icon-button">
-                                        <img src="https://s.namemc.com/img/favicon-30.png" alt="Namemc"
-                                                class="fab-icon">
-                                </a>
-                                <a href="https://steamcommunity.com/id/duziy" target="_blank" class="icon-button"><i
-                                                class="fab fa-steam"></i></a>
-                                <a href="https://t.me/duziy" target="_blank" class="icon-button"><i
-                                                class="fab fa-telegram"></i></a>
-                        </div>
+    <script>
+        // Status typing animation
+        var statuses = JSON.parse('{{ statuses | tojson | safe }}');
+        var currentStatus = 0;
+        var index = 0;
+        var isDeleting = false;
 
-                        <!-- Volume Control -->
-                        <div class="volume-control">
-                                <button id="mute-button" class="mute">🔊</button>
-                                <input type="range" id="volume-slider" class="volume-slider" min="0" max="1" step="0.01"
-                                        value="0.2">
-                        </div>
-                </div>
-        </div>
+        function typeWriter() {
+            var currentText = statuses[currentStatus];
+            var speed = 100;
 
-        <script>
-                var statuses = JSON.parse('{{ statuses | tojson | safe }}');
-                var currentStatus = 0;
-                var index = 0;
-                var isDeleting = false;
+            if (!isDeleting && index < currentText.length) {
+                document.getElementById("status").innerHTML += currentText.charAt(index);
+                index++;
+                setTimeout(typeWriter, speed);
+            } else if (isDeleting && index > 0) {
+                document.getElementById("status").innerHTML = currentText.substring(0, index - 1);
+                index--;
+                setTimeout(typeWriter, speed / 2);
+            } else if (index === currentText.length) {
+                isDeleting = true;
+                setTimeout(typeWriter, 5000);
+            } else {
+                isDeleting = false;
+                currentStatus = (currentStatus + 1) % statuses.length;
+                index = 0;
+                setTimeout(typeWriter, 500);
+            }
+        }
 
-                function typeWriter() {
-                        var currentText = statuses[currentStatus];
-                        var speed = 100;
-
-                        if (!isDeleting && index < currentText.length) {
-                                document.getElementById("status").innerHTML += currentText.charAt(index);
-                                index++;
-                                setTimeout(typeWriter, speed);
-                        } else if (isDeleting && index > 0) {
-                                document.getElementById("status").innerHTML = currentText.substring(0, index - 1);
-                                index--;
-                                setTimeout(typeWriter, speed / 2);
-                        } else if (index === currentText.length) {
-                                isDeleting = true;
-                                setTimeout(typeWriter, 5000);
-                        } else {
-                                isDeleting = false;
-                                currentStatus = (currentStatus + 1) % statuses.length;
-                                index = 0;
-                                setTimeout(typeWriter, 500);
-                        }
-                }
-
-                typeWriter();
-        </script>
-        <script>
-                const video = document.getElementById('background-video');
-                const muteButton = document.getElementById('mute-button');
-                const volumeSlider = document.getElementById('volume-slider');
-
-                muteButton.addEventListener('click', () => {
-                        if (video.muted) {
-                                video.muted = false;
-                                muteButton.innerHTML = '🔊';
-                        } else {
-                                video.muted = true;
-                                muteButton.innerHTML = '🔇';
-                        }
-                });
-
-                volumeSlider.addEventListener('input', () => {
-                        video.volume = volumeSlider.value;
-                        if (video.volume === 0) {
-                                video.muted = true;
-                                muteButton.innerHTML = '🔇';
-                        } else {
-                                video.muted = false;
-                                muteButton.innerHTML = '🔊';
-                        }
-                });
-        </script>
-        <script src="{{ url_for('static', filename='skritps.js') }}"></script>
+        typeWriter();
+    </script>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
 </body>
 
-</html
+</html>
