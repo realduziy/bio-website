@@ -13,21 +13,40 @@ body {
     align-items: center;
     overflow-y: auto;
     position: relative;
+    transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+body.blocked {
+    pointer-events: none;
+}
+
+body.blocked .content-box {
+    pointer-events: none;
+    opacity: 0.7;
+    filter: blur(1px);
 }
 
 .background-container {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
+    width: 100vw;
+    height: 100vh;
     z-index: -1;
     overflow: hidden;
 }
 
 .background-video {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
     object-fit: cover;
 }
 
@@ -45,6 +64,7 @@ body {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
     max-width: 400px;
     margin: 0 auto;
+    transition: all 0.3s ease;
 }
 
 .profile-pic {
@@ -105,6 +125,7 @@ body {
     transform: scale(1.1);
 }
 
+/* Default icon size */
 .icon-button img,
 .fab-icon {
     width: 36px;
@@ -112,23 +133,25 @@ body {
     object-fit: contain;
 }
 
-/* Specific classes for larger icons */
-.icon-button.soundcloud img,
+/* Specific icon sizes */
+.icon-button.soundcloud img {
+    width: 64px;
+    height: 64px;
+}
+
 .icon-button.telegram img {
-    width: 64px; /* Larger width */
-    height: 64px; /* Larger height */
+    width: 84px;
+    height: 84px;
 }
 
-/* Custom size for TikTok icon */
 .icon-button.tiktok img {
-    width: 84px; /* Custom width */
-    height: 84px; /* Custom height */
+    width: 84px;
+    height: 84px;
 }
 
-/* GitHub icon size */
 .icon-button.github img {
-    width: 46px; /* Standard width */
-    height: 46px; /* Standard height */
+    width: 46px;
+    height: 46px;
 }
 
 .volume-control {
@@ -147,12 +170,15 @@ body {
     color: white;
     cursor: pointer;
     padding: 8px 12px;
-    transition: background 0.3s, transform 0.3s;
+    transition: all 0.2s ease;
 }
 
 .mute:hover {
     background: rgba(255, 255, 255, 0.4);
-    transform: scale(1.05);
+}
+
+.mute:active {
+    transform: scale(0.9);
 }
 
 .volume-slider {
@@ -162,11 +188,7 @@ body {
     border-radius: 5px;
     height: 6px;
     outline: none;
-    transition: background 0.3s;
-}
-
-.volume-slider:disabled {
-    opacity: 0.5;
+    transition: all 0.2s ease;
 }
 
 .volume-slider::-webkit-slider-thumb {
@@ -176,7 +198,7 @@ body {
     border-radius: 50%;
     background: white;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background 0.2s ease;
 }
 
 .volume-slider::-moz-range-thumb {
@@ -185,7 +207,37 @@ body {
     border-radius: 50%;
     background: white;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: background 0.2s ease;
+}
+
+.volume-slider:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    position: relative;
+}
+
+.volume-slider:disabled::-webkit-slider-thumb {
+    background: #cccccc;
+}
+
+.volume-slider:disabled::-moz-range-thumb {
+    background: #cccccc;
+}
+
+.volume-slider.muted {
+    position: relative;
+}
+
+.volume-slider.muted::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: white;
+    transform: translateY(-50%) rotate(-45deg);
+    transform-origin: center;
 }
 
 #status-container {
@@ -215,4 +267,52 @@ body {
     50% {
         background-color: #fff;
     }
+}
+
+.epilepsy-warning-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.7);
+    pointer-events: auto;
+}
+
+.epilepsy-warning {
+    background: rgba(255, 0, 0, 0.9);
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+    border: 3px solid white;
+    cursor: pointer;
+    max-width: 80%;
+    pointer-events: auto;
+}
+
+.epilepsy-warning-subtext {
+    font-size: 1rem;
+    margin-top: 15px;
+}
+
+.play-fallback-button {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: 2px solid white;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
 }
