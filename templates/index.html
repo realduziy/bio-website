@@ -4,13 +4,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>duziy's Bio</title>
+    <meta name="description" content="Welcome to duziy's little website!">
+    <meta name="keywords" content="duziy, personal website, bio, about me, portfolio, online presence, personal brand, professional profile, duziy's website, duziy bio, duziy online, duziy portfolio, duziy social media, duziy internet presence, YouTube, Kick, Twitch, TikTok, Instagram, Twitter/X, GitHub, SoundCloud, Roblox, Reddit, NameMC, Steam, Telegram, gaming, streaming, content creation, music, social media, online gaming, community engagement, web development, programming, software development, digital content, online community, internet personality, digital footprint, online identity, social links, connect with duziy">
+    <title>duziy</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='images/android-chrome-192x192.png') }}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{{ url_for('static', filename='images/android-chrome-512x512.png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='images/site.webmanifest') }}">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://duziy.xyz">
+    <meta property="og:title" content="duziy">
+    <meta property="og:description" content="Welcome to duziy's little website!">
+    <meta property="og:image" content="https://duziy.xyz/path/to/your-image.jpg">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://duziy.xyz">
+    <meta property="twitter:title" content="duziy">
+    <meta property="twitter:description" content="Welcome to duziy's little website!">
+    <meta property="twitter:image" content="https://duziy.xyz/path/to/your-image.jpg">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
     <div class="background-container">
-        <video id="background-video" autoplay loop muted playsinline class="background-video">
+        <video id="background-video" autoplay loop playsinline class="background-video">
             <source src="{{ url_for('static', filename='backgrounds/' + background_video) }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
@@ -24,7 +49,6 @@
             </div>
             <p class="bio">Just some guy on the internet</p>
 
-            <!-- Social Icons -->
             <div class="social-icons">
                 <a href="https://youtube.com/@duziy" target="_blank" rel="noopener noreferrer" class="icon-button">
                     <img src="{{ url_for('static', filename='images/youtube_logo.png') }}" alt="YouTube" class="fab-icon">
@@ -62,12 +86,11 @@
                 <a href="https://steamcommunity.com/id/duziy" target="_blank" rel="noopener noreferrer" class="icon-button">
                     <img src="{{ url_for('static', filename='images/steam_logo.png') }}" alt="Steam" class="fab-icon">
                 </a>
-                <a href="https://t.me/duziy" target="_blank" rel="noopener noreferrer" class="icon-button telegram">
+                <a href="https://t.me/duziy" target="_blank" rel="noopener noreferrer" class="icon-button">
                     <img src="{{ url_for('static', filename='images/telegram_logo.png') }}" alt="Telegram" class="fab-icon">
                 </a>
             </div>
 
-            <!-- Volume Control -->
             <div class="volume-control">
                 <button id="mute-button" class="mute">🔇</button>
                 <input type="range" id="volume-slider" class="volume-slider" min="0" max="1" step="0.01" value="0.2">
@@ -76,7 +99,6 @@
     </div>
 
     <script>
-        // Status typing animation
         var statuses = JSON.parse('{{ statuses | tojson | safe }}');
         var currentStatus = 0;
         var index = 0;
