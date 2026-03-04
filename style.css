@@ -1,0 +1,78 @@
+/* This is included in the index.html <style> tag, but if you want a separate file: */
+
+/* Orbit animations - already in index.html but repeated here for completeness */
+@keyframes orbit {
+  0% {
+      transform: rotate(0deg) translateX(10px) rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg) translateX(10px) rotate(-360deg);
+  }
+}
+
+@keyframes fast-orbit {
+  0% {
+      transform: rotate(0deg) translateX(15px) rotate(0deg);
+  }
+  100% {
+      transform: rotate(720deg) translateX(15px) rotate(-720deg);
+  }
+}
+
+.profile-container.orbit {
+  animation: orbit 10s linear infinite;
+}
+
+.profile-container.fast-orbit {
+  animation: fast-orbit 0.5s linear;
+}
+
+/* Mobile responsiveness - already in index.html but repeated here */
+@media (max-width: 430px) {
+  #profile-block {
+      width: 85vw;
+      max-width: 300px;
+      padding: 20px;
+  }
+  
+  .profile-container {
+      width: 80px;
+      height: 80px;
+  }
+  
+  .profile-picture {
+      width: 80px;
+      height: 80px;
+  }
+  
+  #profile-name {
+      font-size: 24px;
+      letter-spacing: 2px;
+  }
+  
+  #profile-bio {
+      font-size: 14px;
+      min-height: 21px;
+  }
+  
+  .social-links {
+      gap: 12px;
+  }
+  
+  .icon-button {
+      width: 40px;
+      height: 40px;
+      font-size: 1.5rem;
+  }
+  
+  .icon-button img,
+  .fab-icon {
+      width: 24px;
+      height: 24px;
+  }
+  
+  #start-text {
+      font-size: 20px;
+      padding: 20px;
+  }
+}
