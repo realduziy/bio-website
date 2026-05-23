@@ -107,7 +107,4 @@ python app.py
 
 ## Project Preview
 
-```
 <img width="1916" height="916" alt="image" src="https://github.com/user-attachments/assets/04da68b6-080e-492a-bc66-60fbea24d86c" />
-
-```
