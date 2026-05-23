@@ -11,6 +11,7 @@ This project is a proof-of-concept built using AI. While it is fully functional,
 | **Language** | Python 3.x |
 | **Framework** | Flask (`pip install Flask`) |
 | **Server** | Gunicorn (`pip install gunicorn`) |
+| **Orchestration** | Docker & Docker Compose |
 | **Media Assets** | `profile.jpg`, `background.mp4`, `background_music.mp3`, `favicon.ico`, `crosshair.png` |
 
 ---
@@ -29,22 +30,29 @@ This project is a proof-of-concept built using AI. While it is fully functional,
 
 ## Deployment & Execution
 
-### 🐳 Running with Docker & Gunicorn (Recommended for VPS)
+### 🐳 Running with Docker & Compose (Recommended for VPS)
 
-Using Docker with Gunicorn is the most robust way to host this website on a VPS. It isolates the environment and ensures the website can handle multiple requests efficiently.
+Using Docker Compose combined with Gunicorn is the most robust way to host this website on a Linux VPS. This setup handles automatic container restarts, mounts your project directory for quick updates, and runs your app smoothly in an isolated environment.
 
-**1. Create a `requirements.txt` file:**
-In the root directory of the project, create a file named `requirements.txt` and add the following:
+#### 1. Managing Files on Your VPS
+If you are modifying or creating these files directly on your VPS via SSH, use the `nano` text editor.
+* **To create/edit a file:** Run `nano filename.txt` (e.g., `nano docker-compose.yml`).
+* **To save and exit:** Press `Ctrl + O` (then hit `Enter` to confirm the filename), and press `Ctrl + X` to close the editor.
+
+#### 2. Create a `requirements.txt` file
+Run `nano requirements.txt`, paste the following lines, then save and exit:
 ```text
 Flask==3.0.0
 gunicorn==21.2.0
+
 ```
 
-**2. Create a `Dockerfile`:**
-In the same directory, create a file named `Dockerfile` (no extension) and paste this configuration:
+#### 3. Create a `Dockerfile`
+
+Run `nano Dockerfile` (no extension), paste this build configuration, then save and exit:
 
 ```dockerfile
-FROM python:3.14-slim
+FROM python:3.11-slim
 
 # Set the working directory
 WORKDIR /app
@@ -53,40 +61,63 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application, including the assets folder
+# Copy the rest of the application files
 COPY . .
 
-# Expose the port Gunicorn will run on
-EXPOSE 5000
-
-# Run Gunicorn with 4 workers, binding to 0.0.0.0
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:app"]
+# Expose the port Gunicorn will listen on inside the container
+EXPOSE 8000
 
 ```
 
-**3. Build and Run the Container:**
-Run these commands in your VPS terminal:
+#### 4. Create a `docker-compose.yml` file
+
+Run `nano docker-compose.yml`, paste the configuration block below, then save and exit.
+
+> ⚠️ **Note on Ports:** The ports section is configured as `"127.0.0.1:8000:8000"`. This locks down the container to only accept traffic from the local machine (perfect if you are using Nginx as a reverse proxy). If you want the site immediately public on port 80 without a reverse proxy, change that line to ` - "80:8000"`.
+
+```yaml
+services:
+  flask_site:
+    build: .
+    container_name: website_prod
+    restart: always
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - .:/app
+    command: gunicorn --bind 0.0.0.0:8000 app:app
+    environment:
+      - PYTHONUNBUFFERED=1
+
+```
+
+#### 5. Launch the Container
+
+Run the following command in your terminal to build the image and launch the container in the background:
 
 ```bash
-# Build the Docker image (don't miss the dot at the end)
-docker build -t flask-portfolio .
-
-# Run the container in the background (mapping port 80 to 5000)
-docker run -d -p 80:5000 --name my-flask-app flask-portfolio
+docker compose up -d --build
 
 ```
+
+* To check if it's running successfully, use: `docker ps`
+* To stop the container, use: `docker compose down`
+
+---
 
 ### ⚠️ Common Docker/Gunicorn Troubleshooting
 
 If you run into issues getting this setup to work, here is how to fix the most common problems:
 
-* **Site isn't loading outside the VPS:** This usually happens if Gunicorn binds to `127.0.0.1` instead of `0.0.0.0`. The Dockerfile provided above fixes this by explicitly setting `-b 0.0.0.0:5000`. Docker cannot route traffic to the container if it's only listening locally.
-* **Missing Assets (Images/Video not showing):** Ensure that your `/assets` folder is actually in the same directory as the Dockerfile before building. The `COPY . .` command brings everything over, but if the folder is missing or misnamed on the host, the container won't have it.
-* **"Module not found: app" Error:** The Gunicorn command `app:app` assumes your main Python script is named `app.py` and the Flask instance inside it is called `app`. If you named your file `main.py`, you need to change the CMD line in the Dockerfile to `CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "main:app"]`.
+* **Site isn't loading outside the VPS:** This happens if Gunicorn binds to localhost inside the container. The `command:` block in the `docker-compose.yml` explicitly sets `--bind 0.0.0.0:8000` to resolve this. Also ensure your firewall (like UFW) has the required external port open.
+* **Volume Overwrite Issues:** The `volumes:` section maps your current host directory (`.`) straight into `/app` inside the container. This makes editing static files easy, but if your local host directory is completely missing files or folders (like `/assets`), it will hide them inside the running container too. Always keep your local workspace organized.
+* **"Module not found: app" Error:** The Gunicorn command `app:app` assumes your main Python entry file is named `app.py` and your internal Flask instance is assigned to a variable named `app`. If your entry file is named `main.py`, update the `command:` line in your `docker-compose.yml` to reflect `main:app`.
+
+---
 
 ### Running Locally (For Testing)
 
-To test the project on your machine before using Docker, navigate to the project directory in your terminal and run:
+To test the project on your machine before pushing it up to your Docker environment, navigate to the project directory in your terminal and run:
 
 ```bash
 # 1. Create a virtual environment
