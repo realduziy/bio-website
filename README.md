@@ -44,7 +44,7 @@ gunicorn==21.2.0
 In the same directory, create a file named `Dockerfile` (no extension) and paste this configuration:
 
 ```dockerfile
-FROM python:3.10-slim
+FROM python:3.14-slim
 
 # Set the working directory
 WORKDIR /app
