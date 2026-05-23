@@ -31,7 +31,7 @@ This project is a proof-of-concept built using AI. While it is fully functional,
 
 ### 🐳 Running with Docker & Gunicorn (Recommended for VPS)
 
-Using Docker with Gunicorn is the most robust way to host this app on a VPS. It isolates the environment and ensures the app can handle multiple requests efficiently.
+Using Docker with Gunicorn is the most robust way to host this website on a VPS. It isolates the environment and ensures the website can handle multiple requests efficiently.
 
 **1. Create a `requirements.txt` file:**
 In the root directory of the project, create a file named `requirements.txt` and add the following:
