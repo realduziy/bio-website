@@ -37,3 +37,5 @@ python app.py
 
 Hosting
 If you plan to use this for a live site, you will need to host it on a platform that supports Python/Flask
+
+<img width="1915" height="910" alt="image" src="https://github.com/user-attachments/assets/078eec34-4fbf-49ea-b139-a0217ae0a6a5" />
