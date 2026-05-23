@@ -38,7 +38,6 @@ In the root directory of the project, create a file named `requirements.txt` and
 ```text
 Flask==3.0.0
 gunicorn==21.2.0
-
 ```
 
 **2. Create a `Dockerfile`:**
