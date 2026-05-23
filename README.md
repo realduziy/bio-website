@@ -23,7 +23,6 @@ This project is a proof-of-concept built using AI. While it is fully functional,
     * **Background:** Name the video `background.mp4` and the audio `background_music.mp3`.
     * **Branding:** Replace `favicon.ico` for your browser tab icon and `crosshair.png` to update your custom cursor/crosshair.
     * *Note: Feel free to swap out any other supporting images or files in this folder to match your theme.*
-
 2. **Customize Content:** Open the HTML files to update your personal details, including your social media links, name, bio, and website title.
 
 ---
@@ -37,7 +36,7 @@ Using Docker Compose combined with Gunicorn is the most robust way to host this 
 #### 1. Managing Files on Your VPS
 If you are modifying or creating these files directly on your VPS via SSH, use the `nano` text editor.
 * **To create/edit a file:** Run `nano filename.txt` (e.g., `nano docker-compose.yml`).
-* **To save and exit:** Press `Ctrl + O` (then hit `Enter` to confirm the filename), and press `Ctrl + X` to close the editor.
+* **To save and exit:** Press `Ctrl + O` (then hit `Enter` to confirm), and press `Ctrl + X` to close.
 
 #### 2. Create a `requirements.txt` file
 Run `nano requirements.txt`, paste the following lines, then save and exit:
@@ -53,18 +52,10 @@ Run `nano Dockerfile` (no extension), paste this build configuration, then save 
 
 ```dockerfile
 FROM python:3.11-slim
-
-# Set the working directory
 WORKDIR /app
-
-# Copy requirements and install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the rest of the application files
 COPY . .
-
-# Expose the port Gunicorn will listen on inside the container
 EXPOSE 8000
 
 ```
@@ -73,7 +64,7 @@ EXPOSE 8000
 
 Run `nano docker-compose.yml`, paste the configuration block below, then save and exit.
 
-> ⚠️ **Note on Ports:** The ports section is configured as `"127.0.0.1:8000:8000"`. This locks down the container to only accept traffic from the local machine (perfect if you are using Nginx as a reverse proxy). If you want the site immediately public on port 80 without a reverse proxy, change that line to ` - "80:8000"`.
+> ⚠️ **Note on Ports:** The ports section is configured as `"127.0.0.1:8000:8000"`. This locks down the container to only accept traffic from the local machine (perfect if you are using Nginx as a reverse proxy). If you want the site immediately public on port 80 without a reverse proxy, change that line to `- "80:8000"`.
 
 ```yaml
 services:
@@ -105,11 +96,35 @@ docker compose up -d --build
 
 ---
 
+### 🛡️ Managing Your VPS Firewall
+
+If you aren't using a reverse proxy and changed your ports mapping to expose the site directly to the web (e.g., `- "80:8000"`), you must ensure your server firewall allows public web traffic. On Ubuntu/Debian systems using UFW (Uncomplicated Firewall), manage your rules with these commands:
+
+```bash
+# Check your current firewall status and active rules
+sudo ufw status
+
+# Allow standard HTTP traffic (Port 80)
+sudo ufw allow 80/tcp
+
+# Allow standard HTTPS traffic (Port 443) if you use SSL later
+sudo ufw allow 443/tcp
+
+# CRITICAL: Always ensure SSH is allowed before enabling the firewall so you don't lock yourself out!
+sudo ufw allow 22/tcp
+
+# Reload the firewall to apply changes
+sudo ufw reload
+
+```
+
+---
+
 ### ⚠️ Common Docker/Gunicorn Troubleshooting
 
 If you run into issues getting this setup to work, here is how to fix the most common problems:
 
-* **Site isn't loading outside the VPS:** This happens if Gunicorn binds to localhost inside the container. The `command:` block in the `docker-compose.yml` explicitly sets `--bind 0.0.0.0:8000` to resolve this. Also ensure your firewall (like UFW) has the required external port open.
+* **Site isn't loading outside the VPS:** This happens if Gunicorn binds to localhost inside the container. The `command:` block in the `docker-compose.yml` explicitly sets `--bind 0.0.0.0:8000` to resolve this. Also ensure your firewall allows the external port you specified.
 * **Volume Overwrite Issues:** The `volumes:` section maps your current host directory (`.`) straight into `/app` inside the container. This makes editing static files easy, but if your local host directory is completely missing files or folders (like `/assets`), it will hide them inside the running container too. Always keep your local workspace organized.
 * **"Module not found: app" Error:** The Gunicorn command `app:app` assumes your main Python entry file is named `app.py` and your internal Flask instance is assigned to a variable named `app`. If your entry file is named `main.py`, update the `command:` line in your `docker-compose.yml` to reflect `main:app`.
 
