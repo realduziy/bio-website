@@ -1,37 +1,38 @@
 # Project Overview
 
-If you're planning to use this for anything real, you’ll need a hosting provider.
+This project is a proof-of-concept built using AI. While it is fully functional, it is intended for demonstration purposes. If you plan to deploy this for production, I recommend forking the repository to address potential bugs and enhance security measures.
 
-I built this as a fun proof of concept using AI!
+---
 
-There could be bugs or even security issues, so I wouldn't recommend using it as-is for a final product. If I were you, I'd fork this project and improve it.
+## Technical Requirements
 
-I might update this in the future, but for now, this is pretty much it.
+| Component | Requirement |
+| :--- | :--- |
+| **Language** | Python 3.x |
+| **Framework** | Flask (`pip install Flask`) |
+| **Media Assets** | `profile.jpg`, `background.mp4`, `background_music.mp3` |
 
-## Getting it to work:
+---
 
-1. **Install Python.**
-2. **Install Flask** by running `pip install Flask` if you want to test it locally.
-3. Set up a **profile picture** (anything you like) and name it `profile.jpg`. Make sure it's in the `assets` folder.
-4. Add a **background video** in `mp4` format and name it `background.mp4`. You also need a separate MP3 file for the background music/sound of the video called `background_music.mp3`. It should also go in the `assets` folder.
-5. Edit the **HTML** to include your social links, name, bio, and website title. It’s simple enough to figure out.
+## Setup Guide
 
-## Running it locally:
+1. **Prepare Assets:** Place the following files into your `/assets` folder:
+    * **Profile Picture:** Name it `profile.jpg`.
+    * **Background Video:** Name it `background.mp4`.
+    * **Background Music:** Name it `background_music.mp3`.
 
-1. Open a terminal in the project directory.
-2. Run the command:  
-    ```
-    python app.py
-    ```
-    or 
- 
-    ```
-    py app.py
-    ```
+2. **Customize Content:** Open the HTML files to update your personal details, including your social media links, name, bio, and website title.
 
-## Example:
+---
 
-Here’s an example of what it can look like:
+## Deployment & Execution
 
-<img width="1866" height="843" alt="Screenshot_2" src="https://github.com/user-attachments/assets/4825a9f4-4c81-4310-933c-f20cb80d0d82" />
+### Running Locally
+To test the project on your machine, navigate to the project directory in your terminal and run:
 
+```bash
+python app.py
+(If that fails on Windows, try py app.py)
+
+Hosting
+If you plan to use this for a live site, you will need to host it on a platform that supports Python/Flask
