@@ -1,118 +1,254 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="description"
+            content="About me - personal portfolio and information"
+        />
+        <title>About Me</title>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="About me - personal portfolio and information">
-    <title>About Me</title>
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='styles.css') }}"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        />
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="{{ url_for('static', filename='images/apple-touch-icon.png') }}"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="{{ url_for('static', filename='images/favicon-32x32.png') }}"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="{{ url_for('static', filename='images/favicon-16x16.png') }}"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="192x192"
+            href="{{ url_for('static', filename='images/android-chrome-192x192.png') }}"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="512x512"
+            href="{{ url_for('static', filename='images/android-chrome-512x512.png') }}"
+        />
+        <link
+            rel="shortcut icon"
+            href="{{ url_for('static', filename='images/favicon.ico') }}"
+        />
+        <link
+            rel="manifest"
+            href="{{ url_for('static', filename='images/site.webmanifest') }}"
+        />
 
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon-16x16.png') }}">
-    <link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='images/android-chrome-192x192.png') }}">
-    <link rel="icon" type="image/png" sizes="512x512" href="{{ url_for('static', filename='images/android-chrome-512x512.png') }}">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
-    <link rel="manifest" href="{{ url_for('static', filename='images/site.webmanifest') }}">
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://duziy.xyz/about" />
+        <meta property="og:title" content="About Me" />
+        <meta
+            property="og:description"
+            content="Learn more about me - personal portfolio and information"
+        />
+        <meta
+            property="og:image"
+            content="https://duziy.xyz/path/to/your-image.jpg"
+        />
 
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://duziy.xyz/about">
-    <meta property="og:title" content="About Me">
-    <meta property="og:description" content="Learn more about me - personal portfolio and information">
-    <meta property="og:image" content="https://duziy.xyz/path/to/your-image.jpg">
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://duziy.xyz/about" />
+        <meta property="twitter:title" content="About Me" />
+        <meta
+            property="twitter:description"
+            content="Learn more about me - personal portfolio and information"
+        />
+        <meta
+            property="twitter:image"
+            content="https://duziy.xyz/path/to/your-image.jpg"
+        />
+    </head>
 
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://duziy.xyz/about"> 
-    <meta property="twitter:title" content="About Me">
-    <meta property="twitter:description" content="Learn more about me - personal portfolio and information">
-    <meta property="twitter:image" content="https://duziy.xyz/path/to/your-image.jpg">
-</head>
+    <body>
+        <div class="background-container">
+            <video
+                id="background-video"
+                autoplay
+                loop
+                playsinline
+                muted
+                class="background-video"
+            >
+                <source
+                    src="{{ url_for('static', filename='backgrounds/' + background_video) }}"
+                    type="video/mp4"
+                />
+                Your browser does not support the video tag.
+            </video>
+        </div>
 
-<body>
-    <div class="background-container">
-        <video id="background-video" autoplay loop playsinline muted class="background-video">
-            <source src="{{ url_for('static', filename='backgrounds/' + background_video) }}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    </div>
+        <div class="media-controls-container">
+            <div class="controls-section">
+                <div class="media-controls-row">
+                    <button
+                        id="prev-video"
+                        class="media-button"
+                        title="Previous"
+                    >
+                        <i class="fas fa-step-backward"></i>
+                    </button>
+                    <button id="mute-button" class="media-button" title="Mute">
+                        <i class="fas fa-volume-mute"></i>
+                    </button>
+                    <button id="change-video" class="media-button" title="Next">
+                        <i class="fas fa-step-forward"></i>
+                    </button>
+                </div>
 
-    <div class="media-controls-container">
-        <div class="controls-section">
-            <div class="media-controls-row">
-                <button id="prev-video" class="media-button" title="Previous">
-                    <i class="fas fa-step-backward"></i>
-                </button>
-                <button id="mute-button" class="media-button" title="Mute">
-                    <i class="fas fa-volume-mute"></i>
-                </button>
-                <button id="change-video" class="media-button" title="Next">
-                    <i class="fas fa-step-forward"></i>
-                </button>
-            </div>
-            
-            <div class="volume-slider-container">
-                <input type="range" id="volume-slider" class="volume-slider" min="0" max="1" step="0.01" value="0.2">
+                <div class="volume-slider-container">
+                    <input
+                        type="range"
+                        id="volume-slider"
+                        class="volume-slider"
+                        min="0"
+                        max="1"
+                        step="0.01"
+                        value="0.2"
+                    />
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="home-button-container">
-        <a href="/" class="button">
-            <i class="fas fa-home"></i>
-            <span>Home</span>
-        </a>
-    </div>
+        <div class="home-button-container">
+            <a href="/" class="button">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+        </div>
 
-    <div class="container">
-        <div class="content-box about-box">
-            <h1><i class="fas fa-user emoji-icon"></i> About Me</h1>
+        <div class="container">
+            <div class="content-box about-box">
+                <h1><i class="fas fa-user emoji-icon"></i> About Me</h1>
 
-            <div class="about-content">
-                <div class="about-section">
-                    <h2><i class="fas fa-question-circle emoji-icon"></i> Who am I...</h2>
-                    <p>Hey there! I'm duziy, just another person on the internet who loves music, gaming, creating content, and developing Minecraft servers.</p>
-                    <p>I'm all about peace and love, and so should you!</p>
-                    <p>I made this website to reach out to more people and build a brand for myself. It might not stay up forever, but I plan to keep it around for a while since the hosting is fairly cheap for this. I'll be adding new things and updating it to look better as time goes on.</p>
-                </div>
+                <div class="about-content">
+                    <div class="about-section">
+                        <h2>
+                            <i class="fas fa-question-circle emoji-icon"></i>
+                            Who am I...
+                        </h2>
+                        <p>
+                            Hey there! I'm duziy, just another person on the
+                            internet who loves music, gaming, creating content,
+                            and developing Minecraft servers.
+                        </p>
+                        <p>I'm all about peace and love, and so should you!</p>
+                        <p>
+                            I made this website to reach out to more people and
+                            build a brand for myself. It might not stay up
+                            forever, but I plan to keep it around for a while
+                            since the hosting is fairly cheap for this. I'll be
+                            adding new things and updating it to look better as
+                            time goes on.
+                        </p>
+                    </div>
 
-                <div class="about-section">
-                    <h2><i class="fas fa-tasks emoji-icon"></i> Current Projects</h2>
-                    <ul class="emoji-list">
-                        <li><i class="fas fa-gamepad emoji-icon"></i> Working on a Minecraft server</li>
-                        <li><i class="fas fa-music emoji-icon"></i> Cooking up some new music</li>
-                        <li><i class="fas fa-video emoji-icon"></i> Streaming on all platforms!</li>
-                        <li><i class="fas fa-laptop-code emoji-icon"></i> Growing my experience in many new things every day!</li>
-                    </ul>
-                </div>
+                    <div class="about-section">
+                        <h2>
+                            <i class="fas fa-tasks emoji-icon"></i> Current
+                            Projects
+                        </h2>
+                        <ul class="emoji-list">
+                            <li>
+                                <i class="fas fa-gamepad emoji-icon"></i>
+                                Working on a Minecraft server
+                            </li>
+                            <li>
+                                <i class="fas fa-music emoji-icon"></i> Cooking
+                                up some new music
+                            </li>
+                            <li>
+                                <i class="fas fa-video emoji-icon"></i>
+                                Streaming on all platforms!
+                            </li>
+                            <li>
+                                <i class="fas fa-laptop-code emoji-icon"></i>
+                                Growing my experience in many new things every
+                                day!
+                            </li>
+                        </ul>
+                    </div>
 
-                <div class="about-section">
-                    <h2><i class="fas fa-star emoji-icon"></i> Skills & Expertise</h2>
-                    <div class="skills">
-                        <span class="skill-tag"><i class="fas fa-server emoji-icon"></i> Minecraft Server Configurator</span>
-                        <span class="skill-tag"><i class="fas fa-users emoji-icon"></i> Discord Community Management</span>
-                        <span class="skill-tag"><i class="fas fa-user-shield emoji-icon"></i> Staff & General Management (Minecraft Servers)</span>
-                        <span class="skill-tag"><i class="fas fa-music emoji-icon"></i> Music Production</span>
-                        <span class="skill-tag"><i class="fas fa-video emoji-icon"></i> Content Creation</span>
+                    <div class="about-section">
+                        <h2>
+                            <i class="fas fa-star emoji-icon"></i> Skills &
+                            Expertise
+                        </h2>
+                        <div class="skills">
+                            <span class="skill-tag"
+                                ><i class="fas fa-server emoji-icon"></i>
+                                Minecraft Server Configurator</span
+                            >
+                            <span class="skill-tag"
+                                ><i class="fas fa-users emoji-icon"></i> Discord
+                                Community Management</span
+                            >
+                            <span class="skill-tag"
+                                ><i class="fas fa-user-shield emoji-icon"></i>
+                                Staff & General Management (Minecraft
+                                Servers)</span
+                            >
+                            <span class="skill-tag"
+                                ><i class="fas fa-music emoji-icon"></i> Music
+                                Production</span
+                            >
+                            <span class="skill-tag"
+                                ><i class="fas fa-video emoji-icon"></i> Content
+                                Creation</span
+                            >
+                        </div>
+                    </div>
+
+                    <div class="about-section no-border">
+                        <h2>
+                            <i class="fas fa-envelope emoji-icon"></i> Contact
+                            Me
+                        </h2>
+                        <ul class="emoji-list">
+                            <li>
+                                <i class="fas fa-envelope emoji-icon"></i>
+                                Email: duziyspam@gmail.com
+                            </li>
+                            <li>
+                                <i class="fab fa-discord emoji-icon"></i>
+                                Discord: @duziy
+                            </li>
+                            <li>
+                                <i class="fab fa-telegram emoji-icon"></i>
+                                Telegram:&nbsp;<a
+                                    href="https://t.me/duziy"
+                                    target="_blank"
+                                    >t.me/duziy</a
+                                >
+                            </li>
+                        </ul>
+                        <p>My preferred method of contact is via Discord!</p>
                     </div>
                 </div>
-
-                <div class="about-section no-border">
-                    <h2><i class="fas fa-envelope emoji-icon"></i> Contact Me</h2>
-                    <ul class="emoji-list">
-                        <li><i class="fas fa-envelope emoji-icon"></i> Email: duziyspam@gmail.com</li>
-                        <li><i class="fab fa-discord emoji-icon"></i> Discord: @duziy</li>
-                        <li><i class="fab fa-telegram emoji-icon"></i> Telegram:&nbsp;<a href="https://t.me/duziy" target="_blank">t.me/duziy</a></li>
-                    </ul>
-                    <p>My preferred method of contact is via Discord!</p>
-                </div>
             </div>
         </div>
-    </div>
 
-    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
-</body>
-
+        <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+    </body>
 </html>
