@@ -10,16 +10,17 @@ This project is a proof-of-concept built using AI. While it is fully functional,
 | :--- | :--- |
 | **Language** | Python 3.x |
 | **Framework** | Flask (`pip install Flask`) |
-| **Media Assets** | `profile.jpg`, `background.mp4`, `background_music.mp3` |
+| **Media Assets** | `profile.jpg`, `background.mp4`, `background_music.mp3`, `favicon.ico`, `crosshair.png` |
 
 ---
 
 ## Setup Guide
 
-1. **Prepare Assets:** Place the following files into your `/assets` folder:
+1. **Prepare Assets:** Place your files into the `/assets` folder. You can customize the following:
     * **Profile Picture:** Name it `profile.jpg`.
-    * **Background Video:** Name it `background.mp4`.
-    * **Background Music:** Name it `background_music.mp3`.
+    * **Background:** Name the video `background.mp4` and the audio `background_music.mp3`.
+    * **Branding:** Replace `favicon.ico` for your browser tab icon and `crosshair.png` to update your custom cursor/crosshair.
+    * *Note: Feel free to swap out any other supporting images or files in this folder to match your theme.*
 
 2. **Customize Content:** Open the HTML files to update your personal details, including your social media links, name, bio, and website title.
 
