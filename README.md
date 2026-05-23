@@ -108,6 +108,6 @@ python app.py
 ## Project Preview
 
 ```
-<img width="1914" height="910" alt="image" src="https://github.com/user-attachments/assets/d816fec7-8b9c-4b1d-a920-bd9942a98600" />
+<img width="1916" height="916" alt="image" src="https://github.com/user-attachments/assets/04da68b6-080e-492a-bc66-60fbea24d86c" />
 
 ```
