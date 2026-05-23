@@ -31,10 +31,10 @@ This project is a proof-of-concept built using AI. While it is fully functional,
 ### Running Locally
 To test the project on your machine, navigate to the project directory in your terminal and run:
 
-python app.py
-(If that fails on Windows, try py app.py)
+python app.py (If that fails on Windows, try py app.py)
 
-Hosting
+Hosting:
+
 If you plan to use this for a live site, you will need to host it on a platform that supports Python/Flask
 
 <img width="1915" height="910" alt="image" src="https://github.com/user-attachments/assets/078eec34-4fbf-49ea-b139-a0217ae0a6a5" />
