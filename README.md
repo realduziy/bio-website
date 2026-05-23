@@ -28,13 +28,44 @@ This project is a proof-of-concept built using AI. While it is fully functional,
 
 ## Deployment & Execution
 
+### Running on a VPS (Recommended)
+If you are hosting on a Linux VPS, I recommend setting up a virtual environment to keep your dependencies isolated:
+
+```bash
+# 1. Create the virtual environment
+python3 -m venv venv
+
+# 2. Activate the environment
+source venv/bin/activate
+
+# 3. Install requirements
+pip install Flask
+
+# 4. Run the app
+python app.py
+
+```
+
 ### Running Locally
+
 To test the project on your machine, navigate to the project directory in your terminal and run:
 
-python app.py (If that fails on Windows, try py app.py)
+```bash
+python app.py
 
-Hosting:
+```
 
-If you plan to use this for a live site, you will need to host it on a platform that supports Python/Flask
+*(If that fails on Windows, try `py app.py`)*
 
-<img width="1915" height="910" alt="image" src="https://github.com/user-attachments/assets/078eec34-4fbf-49ea-b139-a0217ae0a6a5" />
+### Shared/Standard Hosting
+
+If you are using standard web hosting or a PaaS (like Render, Railway, or Heroku), setup will vary by provider. Please consult your host's documentation for deploying Python/Flask applications—this part is on you!
+
+---
+
+## Project Preview
+
+```
+<img width="1913" height="915" alt="image" src="https://github.com/user-attachments/assets/fa8a601f-8b09-477d-a07e-6cab92a3e053" />
+
+```
