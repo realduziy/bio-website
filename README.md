@@ -96,6 +96,20 @@ docker compose up -d --build
 
 ---
 
+### 🌐 Connecting a Domain & SSL Certificates
+
+To make your website accessible via a custom domain (like `yourdomain.com`) instead of a raw IP address, and to secure it with an HTTPS SSL certificate, you will need to set up a web server/reverse proxy.
+
+Because configuring production-grade SSL certificates involves many variables depending on your registrar, a generic summary of the steps is below. For a visual step-by-step walk-through, look up **"How to set up Nginx Reverse Proxy with Let's Encrypt Certbot on Ubuntu"** on YouTube.
+
+#### General Process:
+
+1. **DNS Mapping:** Go to your domain registrar (e.g., Porkbun, Namecheap) and create an **A Record** pointing your domain name directly to your VPS public IP address.
+2. **Install a Reverse Proxy:** Install Nginx or Caddy on your host VPS to listen on ports `80` and `443`, and configure it to route incoming traffic straight to your Docker container at `127.0.0.1:8000`.
+3. **Generate SSL Certificates:** Use **Certbot** (by Let's Encrypt) to automate fetching and renewing free SSL/TLS certificates so your visitors see the secure padlock icon next to your URL.
+
+---
+
 ### 🛡️ Managing Your VPS Firewall
 
 If you aren't using a reverse proxy and changed your ports mapping to expose the site directly to the web (e.g., `- "80:8000"`), you must ensure your server firewall allows public web traffic. On Ubuntu/Debian systems using UFW (Uncomplicated Firewall), manage your rules with these commands:
