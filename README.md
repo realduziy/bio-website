@@ -3,6 +3,11 @@
 This project is a proof-of-concept built using AI. While it is fully functional, it is intended for demonstration purposes. If you plan to deploy this for production, I recommend forking the repository to address potential bugs and enhance security measures.
 
 ---
+To Do:
+
+Fix the weird visual bug on the about page where the mute button is muted by default.
+
+---
 
 ## Technical Requirements
 
