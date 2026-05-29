@@ -5,7 +5,8 @@ This project is a proof-of-concept built using AI. While it is fully functional,
 ---
 To Do:
 
-Fix the weird visual bug on the about page where the mute button is muted by default.
+- Fix the weird visual bug on the about page where the mute button is muted by default.
+- Make the start screen on the main page the same as on the about page.
 
 ---
 
