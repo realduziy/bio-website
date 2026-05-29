@@ -87,6 +87,31 @@
                 text-align: center;
             }
 
+            /* Pill Button Floating Above Profile Block */
+            .pill-button {
+                position: absolute;
+                top: -65px;
+                left: 50%;
+                transform: translateX(-50%);
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                padding: 12px 20px;
+                border-radius: 999px;
+                text-decoration: none;
+                color: white;
+                background: rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                transition: all 0.25s ease;
+                backdrop-filter: blur(10px);
+                white-space: nowrap;
+            }
+
+            .pill-button:hover {
+                transform: translateX(-50%) scale(1.05);
+                background: rgba(255, 255, 255, 0.18);
+            }
+
             .profile-header {
                 display: flex;
                 flex-direction: column;
@@ -160,9 +185,8 @@
                 align-items: center;
                 justify-content: center;
                 transition: transform 0.3s;
-                background: rgba(0, 0, 0, 0.2);
+                background: transparent;
                 border-radius: 50%;
-                backdrop-filter: blur(3px);
             }
 
             .icon-button:hover {
@@ -300,6 +324,12 @@
                     min-height: 21px;
                 }
 
+                .pill-button {
+                    padding: 10px 16px;
+                    font-size: 14px;
+                    top: -55px;
+                }
+
                 .social-links {
                     gap: 12px;
                 }
@@ -336,6 +366,10 @@
             </video>
 
             <div id="profile-block">
+                <a href="/about" class="pill-button">
+                    <i class="fas fa-user"></i> <span>About Me</span>
+                </a>
+
                 <div class="profile-header">
                     <div class="profile-container">
                         <img
