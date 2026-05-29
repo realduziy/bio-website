@@ -3,252 +3,456 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta
-            name="description"
-            content="About me - personal portfolio and information"
-        />
+        <base href="/" />
         <title>About Me</title>
-
-        <link
-            rel="stylesheet"
-            href="{{ url_for('static', filename='styles.css') }}"
-        />
+        <link rel="icon" href="/assets/favicon.ico" type="image/x-icon" />
         <link
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         />
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: "Courier New", monospace;
+            }
 
-        <link
-            rel="apple-touch-icon"
-            sizes="180x180"
-            href="{{ url_for('static', filename='images/apple-touch-icon.png') }}"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href="{{ url_for('static', filename='images/favicon-32x32.png') }}"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href="{{ url_for('static', filename='images/favicon-16x16.png') }}"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="192x192"
-            href="{{ url_for('static', filename='images/android-chrome-192x192.png') }}"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="512x512"
-            href="{{ url_for('static', filename='images/android-chrome-512x512.png') }}"
-        />
-        <link
-            rel="shortcut icon"
-            href="{{ url_for('static', filename='images/favicon.ico') }}"
-        />
-        <link
-            rel="manifest"
-            href="{{ url_for('static', filename='images/site.webmanifest') }}"
-        />
+            body {
+                background: #000;
+                color: #fff;
+                overflow-x: hidden;
+            }
 
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://duziy.xyz/about" />
-        <meta property="og:title" content="About Me" />
-        <meta
-            property="og:description"
-            content="Learn more about me - personal portfolio and information"
-        />
-        <meta
-            property="og:image"
-            content="https://duziy.xyz/path/to/your-image.jpg"
-        />
+            /* --- START SCREEN STYLE --- */
+            #start-screen {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: #000;
+                z-index: 10000;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+            }
 
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://duziy.xyz/about" />
-        <meta property="twitter:title" content="About Me" />
-        <meta
-            property="twitter:description"
-            content="Learn more about me - personal portfolio and information"
-        />
-        <meta
-            property="twitter:image"
-            content="https://duziy.xyz/path/to/your-image.jpg"
-        />
+            .custom-cursor {
+                position: fixed;
+                width: 40px;
+                height: 40px;
+                background: url("/assets/custom_cursor.png") no-repeat center
+                    center;
+                background-size: contain;
+                pointer-events: none;
+                z-index: 9999;
+                transform: translate(-50%, -50%);
+                display: none;
+            }
+
+            body:not(.touch-device) {
+                cursor: none;
+            }
+
+            body:not(.touch-device) .custom-cursor {
+                display: block;
+            }
+
+            #background {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                z-index: 1;
+                pointer-events: none;
+            }
+
+            .page-wrapper {
+                position: relative;
+                z-index: 10;
+                width: 100%;
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 40px 20px;
+            }
+
+            @keyframes slideUpFade {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .about-box {
+                width: 100%;
+                max-width: 900px;
+                background: rgba(0, 0, 0, 0.7);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 15px;
+                backdrop-filter: blur(12px);
+                padding: 40px;
+                box-shadow:
+                    0 15px 40px rgba(0, 0, 0, 0.8),
+                    inset 0 0 20px rgba(255, 255, 255, 0.05);
+                animation: slideUpFade 0.6s ease-out forwards;
+            }
+
+            .top-buttons {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .button {
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                padding: 10px 20px;
+                border-radius: 999px;
+                text-decoration: none;
+                color: white;
+                background: rgba(255, 255, 255, 0.08);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                transition: all 0.3s ease;
+                backdrop-filter: blur(5px);
+            }
+
+            .button:hover {
+                transform: translateX(-5px);
+                background: rgba(255, 255, 255, 0.15);
+                box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+            }
+
+            h1 {
+                font-size: 42px;
+                margin-bottom: 35px;
+                text-align: center;
+                letter-spacing: 2px;
+                text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            }
+
+            .about-section {
+                margin-bottom: 35px;
+                padding-bottom: 25px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                opacity: 0;
+                animation: slideUpFade 0.6s ease-out forwards;
+            }
+
+            .about-section:nth-of-type(1) {
+                animation-delay: 0.2s;
+            }
+            .about-section:nth-of-type(2) {
+                animation-delay: 0.35s;
+            }
+            .about-section:nth-of-type(3) {
+                animation-delay: 0.5s;
+            }
+            .about-section:nth-of-type(4) {
+                animation-delay: 0.65s;
+            }
+
+            .about-section.no-border {
+                border-bottom: none;
+                margin-bottom: 0;
+                padding-bottom: 0;
+            }
+
+            h2 {
+                font-size: 22px;
+                margin-bottom: 18px;
+                color: #f0f0f0;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                border-left: 3px solid rgba(255, 255, 255, 0.4);
+                padding-left: 12px;
+            }
+
+            h2 i {
+                color: rgba(255, 255, 255, 0.7);
+            }
+
+            p {
+                color: rgba(255, 255, 255, 0.85);
+                line-height: 1.8;
+                font-size: 16px;
+                margin-bottom: 15px;
+            }
+
+            p:last-child {
+                margin-bottom: 0;
+            }
+
+            .emoji-list {
+                list-style: none;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .emoji-list li {
+                color: rgba(255, 255, 255, 0.85);
+                line-height: 1.6;
+                font-size: 16px;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                transition:
+                    transform 0.3s ease,
+                    color 0.3s ease;
+            }
+
+            .emoji-list li:hover {
+                transform: translateX(8px);
+                color: #fff;
+            }
+
+            .emoji-list li i {
+                width: 20px;
+                text-align: center;
+                color: rgba(255, 255, 255, 0.7);
+            }
+
+            .skills {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 12px;
+                padding-top: 5px;
+            }
+
+            .skill-tag {
+                background: rgba(255, 255, 255, 0.08);
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                padding: 10px 18px;
+                border-radius: 999px;
+                font-size: 15px;
+                transition: all 0.3s ease;
+                cursor: default;
+            }
+
+            .skill-tag:hover {
+                transform: translateY(-3px);
+                background: rgba(255, 255, 255, 0.18);
+                border-color: rgba(255, 255, 255, 0.4);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                color: #fff;
+            }
+
+            a {
+                color: #fff;
+            }
+
+            .emoji-list a {
+                text-decoration: none;
+                border-bottom: 1px dashed rgba(255, 255, 255, 0.4);
+                transition: all 0.3s ease;
+            }
+
+            .emoji-list a:hover {
+                border-bottom: 1px solid #fff;
+                text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+            }
+
+            /* --- MEDIA CONTROLS --- */
+            .media-controls {
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                display: flex;
+                gap: 15px;
+                z-index: 20;
+                background: rgba(0, 0, 0, 0.7);
+                padding: 10px 15px;
+                border-radius: 25px;
+                backdrop-filter: blur(5px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+            }
+
+            .volume-control {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .volume-icon {
+                width: 20px;
+                height: 20px;
+                cursor: pointer;
+                display: flex;
+                color: white;
+            }
+
+            .slider {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 80px;
+                height: 5px;
+                border-radius: 5px;
+                background: rgba(255, 255, 255, 0.3);
+                outline: none;
+            }
+
+            .slider::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background: white;
+                cursor: pointer;
+            }
+
+            @media (max-width: 768px) {
+                .about-box {
+                    padding: 30px 20px;
+                }
+                h1 {
+                    font-size: 32px;
+                    margin-bottom: 25px;
+                }
+                h2 {
+                    font-size: 20px;
+                }
+                .skill-tag {
+                    padding: 8px 14px;
+                    font-size: 14px;
+                }
+            }
+        </style>
     </head>
-
     <body>
-        <div class="background-container">
-            <video
-                id="background-video"
-                autoplay
-                loop
-                playsinline
-                muted
-                class="background-video"
-            >
-                <source
-                    src="{{ url_for('static', filename='backgrounds/' + background_video) }}"
-                    type="video/mp4"
+        <div id="start-screen">
+            <p>Click to enter</p>
+        </div>
+
+        <div class="custom-cursor"></div>
+        <video id="background" loop muted playsinline>
+            <source src="/assets/background.mp4" type="video/mp4" />
+        </video>
+
+        <div class="page-wrapper">
+            <div class="about-box">
+                <div class="top-buttons">
+                    <a href="/" class="button">
+                        <i class="fas fa-chevron-left"></i> <span>Back</span>
+                    </a>
+                </div>
+
+                <h1>About Me</h1>
+
+                <div class="about-section">
+                    <h2><i class="fas fa-terminal"></i> Who am I...</h2>
+                    <p>
+                        Hey there! I'm duziy, just another person on the
+                        internet who loves music, gaming, creating content, and
+                        developing Minecraft servers.
+                    </p>
+                    <p>I'm all about peace and love, and so should you!</p>
+                    <p>
+                        I made this website to reach out to more people and
+                        build a brand for myself.
+                    </p>
+                </div>
+
+                <div class="about-section">
+                    <h2><i class="fas fa-tasks"></i> Current Projects</h2>
+                    <ul class="emoji-list">
+                        <li>
+                            <i class="fas fa-gamepad"></i> Working on a
+                            Minecraft server
+                        </li>
+                        <li>
+                            <i class="fas fa-music"></i> Cooking up some new
+                            music
+                        </li>
+                        <li>
+                            <i class="fas fa-video"></i> Streaming on all
+                            platforms!
+                        </li>
+                        <li>
+                            <i class="fas fa-laptop-code"></i> Growing my
+                            experience in many new things every day!
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="about-section">
+                    <h2><i class="fas fa-code"></i> Skills & Expertise</h2>
+                    <div class="skills">
+                        <span class="skill-tag"
+                            >Minecraft Server Configurator</span
+                        >
+                        <span class="skill-tag"
+                            >Discord Community Management</span
+                        >
+                        <span class="skill-tag"
+                            >Staff & General Management</span
+                        >
+                        <span class="skill-tag">Music Production</span>
+                        <span class="skill-tag">Content Creation</span>
+                    </div>
+                </div>
+
+                <div class="about-section no-border">
+                    <h2><i class="fas fa-satellite-dish"></i> Contact Me</h2>
+                    <ul class="emoji-list">
+                        <li>
+                            <i class="fas fa-envelope"></i> Email:
+                            duziyspam@gmail.com
+                        </li>
+                        <li><i class="fab fa-discord"></i> Discord: @duziy</li>
+                        <li>
+                            <i class="fab fa-telegram-plane"></i> Telegram:
+                            <a href="https://t.me/duziy" target="_blank"
+                                >t.me/duziy</a
+                            >
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="media-controls">
+            <div class="volume-control">
+                <svg
+                    id="volume-icon"
+                    class="volume-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
+                    ></path>
+                </svg>
+                <input
+                    id="volume-slider"
+                    class="slider"
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value="0.3"
                 />
-                Your browser does not support the video tag.
-            </video>
-        </div>
-
-        <div class="media-controls-container">
-            <div class="controls-section">
-                <div class="media-controls-row">
-                    <button
-                        id="prev-video"
-                        class="media-button"
-                        title="Previous"
-                    >
-                        <i class="fas fa-step-backward"></i>
-                    </button>
-                    <button id="mute-button" class="media-button" title="Mute">
-                        <i class="fas fa-volume-mute"></i>
-                    </button>
-                    <button id="change-video" class="media-button" title="Next">
-                        <i class="fas fa-step-forward"></i>
-                    </button>
-                </div>
-
-                <div class="volume-slider-container">
-                    <input
-                        type="range"
-                        id="volume-slider"
-                        class="volume-slider"
-                        min="0"
-                        max="1"
-                        step="0.01"
-                        value="0.2"
-                    />
-                </div>
             </div>
         </div>
 
-        <div class="home-button-container">
-            <a href="/" class="button">
-                <i class="fas fa-home"></i>
-                <span>Home</span>
-            </a>
-        </div>
-
-        <div class="container">
-            <div class="content-box about-box">
-                <h1><i class="fas fa-user emoji-icon"></i> About Me</h1>
-
-                <div class="about-content">
-                    <div class="about-section">
-                        <h2>
-                            <i class="fas fa-question-circle emoji-icon"></i>
-                            Who am I...
-                        </h2>
-                        <p>
-                            Hey there! I'm duziy, just another person on the
-                            internet who loves music, gaming, creating content,
-                            and developing Minecraft servers.
-                        </p>
-                        <p>I'm all about peace and love, and so should you!</p>
-                        <p>
-                            I made this website to reach out to more people and
-                            build a brand for myself. It might not stay up
-                            forever, but I plan to keep it around for a while
-                            since the hosting is fairly cheap for this. I'll be
-                            adding new things and updating it to look better as
-                            time goes on.
-                        </p>
-                    </div>
-
-                    <div class="about-section">
-                        <h2>
-                            <i class="fas fa-tasks emoji-icon"></i> Current
-                            Projects
-                        </h2>
-                        <ul class="emoji-list">
-                            <li>
-                                <i class="fas fa-gamepad emoji-icon"></i>
-                                Working on a Minecraft server
-                            </li>
-                            <li>
-                                <i class="fas fa-music emoji-icon"></i> Cooking
-                                up some new music
-                            </li>
-                            <li>
-                                <i class="fas fa-video emoji-icon"></i>
-                                Streaming on all platforms!
-                            </li>
-                            <li>
-                                <i class="fas fa-laptop-code emoji-icon"></i>
-                                Growing my experience in many new things every
-                                day!
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="about-section">
-                        <h2>
-                            <i class="fas fa-star emoji-icon"></i> Skills &
-                            Expertise
-                        </h2>
-                        <div class="skills">
-                            <span class="skill-tag"
-                                ><i class="fas fa-server emoji-icon"></i>
-                                Minecraft Server Configurator</span
-                            >
-                            <span class="skill-tag"
-                                ><i class="fas fa-users emoji-icon"></i> Discord
-                                Community Management</span
-                            >
-                            <span class="skill-tag"
-                                ><i class="fas fa-user-shield emoji-icon"></i>
-                                Staff & General Management (Minecraft
-                                Servers)</span
-                            >
-                            <span class="skill-tag"
-                                ><i class="fas fa-music emoji-icon"></i> Music
-                                Production</span
-                            >
-                            <span class="skill-tag"
-                                ><i class="fas fa-video emoji-icon"></i> Content
-                                Creation</span
-                            >
-                        </div>
-                    </div>
-
-                    <div class="about-section no-border">
-                        <h2>
-                            <i class="fas fa-envelope emoji-icon"></i> Contact
-                            Me
-                        </h2>
-                        <ul class="emoji-list">
-                            <li>
-                                <i class="fas fa-envelope emoji-icon"></i>
-                                Email: duziyspam@gmail.com
-                            </li>
-                            <li>
-                                <i class="fab fa-discord emoji-icon"></i>
-                                Discord: @duziy
-                            </li>
-                            <li>
-                                <i class="fab fa-telegram emoji-icon"></i>
-                                Telegram:&nbsp;<a
-                                    href="https://t.me/duziy"
-                                    target="_blank"
-                                    >t.me/duziy</a
-                                >
-                            </li>
-                        </ul>
-                        <p>My preferred method of contact is via Discord!</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+        <script src="/script.js"></script>
     </body>
 </html>
