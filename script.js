@@ -2,7 +2,8 @@
 function initPage() {
   console.log("Initializing duziy profile page...");
 
-  // Get all DOM elements
+  // ==================== DOM ELEMENTS ====================
+
   const elements = {
     startScreen: document.getElementById("start-screen"),
     startText: document.getElementById("start-text"),
@@ -17,8 +18,16 @@ function initPage() {
     profileContainer: document.querySelector(".profile-container"),
   };
 
-  // Bio typewriter variables
+  // FORCE STOP VIDEO ON LOAD
+  if (elements.video) {
+    elements.video.pause();
+    elements.video.currentTime = 0;
+  }
+
+  // ==================== BIO TYPEWRITER ====================
+
   const bioMessages = ["Just some guy on the internet!", "Just live a little!"];
+
   let bioState = {
     text: "",
     index: 0,
@@ -27,32 +36,29 @@ function initPage() {
     cursorVisible: true,
   };
 
-  // Volume state - SIMPLE AND BULLETPROOF
-  let currentVolume = 0.3;
-  let isMuted = false;
+  // ==================== VOLUME STATE ====================
 
-  // ==================== BULLETPROOF VOLUME SYSTEM ====================
+  let currentVolume = 0.3;
+
+  // ==================== VOLUME STORAGE ====================
 
   function initializeVolume() {
     try {
-      // 1. First try: Check if there's any data at all in localStorage
-      // (This works even if domain has separate storage from IP)
       let volume = 0.3;
 
-      // Generate a storage key based on current hostname
       const hostKey = window.location.hostname.replace(/\./g, "_");
       const storageKey = `duziy_volume_${hostKey}`;
 
-      // Try to get from this specific domain's storage
       const saved = localStorage.getItem(storageKey);
+
       if (saved !== null) {
         const parsed = parseFloat(saved);
+
         if (!isNaN(parsed) && parsed >= 0 && parsed <= 1) {
           volume = parsed;
         }
       }
 
-      // 2. Apply the volume
       if (elements.video) {
         elements.video.volume = volume;
       }
@@ -62,35 +68,32 @@ function initPage() {
       }
 
       currentVolume = volume;
+
       return volume;
     } catch (error) {
-      // If everything fails, use default
       return 0.3;
     }
   }
 
   function saveVolume(volume) {
     try {
-      // Save with host-specific key
       const hostKey = window.location.hostname.replace(/\./g, "_");
       const storageKey = `duziy_volume_${hostKey}`;
 
       localStorage.setItem(storageKey, volume.toString());
-
-      // Also save to a universal key as backup
       localStorage.setItem("duziy_volume_universal", volume.toString());
 
       currentVolume = volume;
     } catch (error) {
-      // If storage fails, at least keep it in memory
       currentVolume = volume;
     }
   }
 
-  // Initialize volume immediately
+  // Initialize saved volume
   initializeVolume();
 
   // ==================== START SCREEN ====================
+
   function setupStartScreen() {
     if (!elements.startScreen) return;
 
@@ -99,45 +102,34 @@ function initPage() {
     }
 
     elements.startScreen.addEventListener("click", handleStartClick);
-
-    elements.startScreen.addEventListener("touchstart", function (e) {
-      e.preventDefault();
-      handleStartClick();
-    });
-
-    // Check if already started
-    try {
-      const videoPlaying = elements.video && !elements.video.paused;
-      if (videoPlaying) {
-        elements.startScreen.style.display = "none";
-        startExperience();
-      }
-    } catch (e) {}
   }
 
   function handleStartClick() {
     if (elements.startScreen) {
       elements.startScreen.style.display = "none";
     }
+
     startExperience();
   }
 
   function startExperience() {
-    // Play video with current volume
+    // Start video/audio ONLY after click
     if (elements.video) {
       elements.video.muted = false;
       elements.video.volume = currentVolume;
 
+      updateMuteIcon();
+
       const playPromise = elements.video.play();
+
       if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          elements.video.muted = true;
-          elements.video.play();
+        playPromise.catch((err) => {
+          console.warn("Video play prevented:", err);
         });
       }
     }
 
-    // Show profile block with animation
+    // Show profile block
     if (elements.profileBlock) {
       elements.profileBlock.style.opacity = "1";
 
@@ -150,6 +142,7 @@ function initPage() {
             y: 0,
             duration: 1,
             ease: "power2.out",
+
             onComplete: () => {
               if (elements.profileContainer) {
                 elements.profileContainer.classList.add("orbit");
@@ -159,6 +152,7 @@ function initPage() {
         );
       } else {
         elements.profileBlock.style.transition = "opacity 1s, transform 1s";
+
         elements.profileBlock.style.transform = "translate(-50%, -50%)";
 
         if (elements.profileContainer) {
@@ -169,11 +163,11 @@ function initPage() {
       }
     }
 
-    // Start bio typewriter
     startBioTypewriter();
   }
 
   // ==================== BIO TYPEWRITER ====================
+
   function startBioTypewriter() {
     if (!elements.profileBio) return;
 
@@ -183,6 +177,7 @@ function initPage() {
 
     function typeBio() {
       const { isDeleting, index, messageIndex } = bioState;
+
       const message = bioMessages[messageIndex];
 
       if (!isDeleting && index < message.length) {
@@ -193,10 +188,13 @@ function initPage() {
         bioState.index--;
       } else if (index === message.length) {
         bioState.isDeleting = true;
+
         setTimeout(typeBio, 3000);
+
         return;
       } else if (index === 0 && isDeleting) {
         bioState.isDeleting = false;
+
         bioState.messageIndex = (messageIndex + 1) % bioMessages.length;
       }
 
@@ -204,12 +202,14 @@ function initPage() {
         bioState.text + (bioState.cursorVisible ? "|" : " ");
 
       const speed = isDeleting ? 75 : 150;
+
       setTimeout(typeBio, speed);
     }
 
     // Cursor blink
     setInterval(() => {
       bioState.cursorVisible = !bioState.cursorVisible;
+
       if (elements.profileBio) {
         elements.profileBio.textContent =
           bioState.text + (bioState.cursorVisible ? "|" : " ");
@@ -220,71 +220,85 @@ function initPage() {
   }
 
   // ==================== VOLUME CONTROLS ====================
+
   function setupVolumeControls() {
     if (!elements.volumeSlider || !elements.volumeIcon || !elements.video)
       return;
 
-    // Volume slider
+    // Slider
     elements.volumeSlider.addEventListener("input", function () {
       const newVolume = parseFloat(this.value);
 
       elements.video.volume = newVolume;
-      elements.video.muted = false;
-      isMuted = false;
 
-      saveVolume(newVolume);
+      elements.video.muted = newVolume === 0;
+
+      if (newVolume > 0) {
+        currentVolume = newVolume;
+        saveVolume(newVolume);
+      }
+
       updateMuteIcon();
     });
 
-    // Mute/unmute button
-    elements.volumeIcon.addEventListener("click", function () {
-      isMuted = !elements.video.muted;
-      elements.video.muted = isMuted;
+    // Toggle mute
+    function toggleMute() {
+      elements.video.muted = !elements.video.muted;
 
-      if (!isMuted) {
-        // Restore saved volume
+      if (!elements.video.muted) {
         elements.video.volume = currentVolume;
+
         if (elements.volumeSlider) {
           elements.volumeSlider.value = currentVolume;
         }
       }
 
       updateMuteIcon();
-    });
+    }
 
-    // Touch support
-    elements.volumeIcon.addEventListener("touchstart", function (e) {
-      e.preventDefault();
-      isMuted = !elements.video.muted;
-      elements.video.muted = isMuted;
-
-      if (!isMuted) {
-        elements.video.volume = currentVolume;
-        if (elements.volumeSlider) {
-          elements.volumeSlider.value = currentVolume;
-        }
-      }
-
-      updateMuteIcon();
-    });
+    // Desktop
+    elements.volumeIcon.addEventListener("click", toggleMute);
 
     updateMuteIcon();
   }
 
+  // ==================== MUTE ICON ====================
+
   function updateMuteIcon() {
     if (!elements.volumeIcon || !elements.video) return;
 
-    if (elements.video.muted) {
+    const muted = elements.video.muted || elements.video.volume === 0;
+
+    if (muted) {
       elements.volumeIcon.innerHTML = `
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"></path>`;
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z">
+        </path>
+
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2">
+        </path>
+      `;
     } else {
       elements.volumeIcon.innerHTML = `
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>`;
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z">
+        </path>
+      `;
     }
   }
 
   // ==================== CUSTOM CURSOR ====================
+
   function setupCustomCursor() {
     if (!elements.cursor) return;
 
@@ -317,51 +331,39 @@ function initPage() {
     }
   }
 
-  // ==================== PROFILE PICTURE INTERACTION ====================
+  // ==================== PROFILE PICTURE ====================
+
   function setupProfilePicture() {
     if (!elements.profilePic || !elements.profileContainer) return;
 
-    elements.profilePic.addEventListener("click", function () {
-      spinProfilePicture();
-    });
-
-    elements.profilePic.addEventListener("touchstart", function (e) {
-      e.preventDefault();
-      spinProfilePicture();
-    });
+    elements.profilePic.addEventListener("click", spinProfilePicture);
   }
 
   function spinProfilePicture() {
     if (!elements.profileContainer) return;
 
     elements.profileContainer.classList.remove("fast-orbit", "orbit");
+
     void elements.profileContainer.offsetWidth;
+
     elements.profileContainer.classList.add("fast-orbit");
 
     setTimeout(() => {
       elements.profileContainer.classList.remove("fast-orbit");
+
       void elements.profileContainer.offsetWidth;
+
       elements.profileContainer.classList.add("orbit");
     }, 500);
   }
 
   // ==================== INITIALIZE EVERYTHING ====================
+
   function initializeAll() {
     setupStartScreen();
     setupVolumeControls();
     setupCustomCursor();
     setupProfilePicture();
-
-    if (elements.video && !elements.video.paused) {
-      elements.startScreen.style.display = "none";
-      if (elements.profileBlock) {
-        elements.profileBlock.style.opacity = "1";
-        if (elements.profileContainer) {
-          elements.profileContainer.classList.add("orbit");
-        }
-      }
-      startBioTypewriter();
-    }
   }
 
   if (document.readyState === "loading") {
