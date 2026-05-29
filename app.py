@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template_string, send_file, send_from_directory
+from flask import Flask, send_file, send_from_directory
 
 app = Flask(__name__, static_folder="assets")
 
@@ -29,7 +29,7 @@ def serve_file(filename):
         return send_file(filename)
     elif filename == "favicon.ico":
         return send_from_directory("assets", filename)
-    return render_template_string("<h1>404</h1>"), 404
+    return send_file("404.html"), 404
 
 
 if __name__ == "__main__":
